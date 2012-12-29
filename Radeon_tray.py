@@ -13,8 +13,23 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def __init__(self, icon, parent=None):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
         menu = QtGui.QMenu(parent)
+        lowAction = menu.addAction(QtGui.QIcon("low.svg"), "Low Power")
+        lowAction.triggered.connect(lambda: power_profile_set("low"))
+
+
+        midAction = menu.addAction(QtGui.QIcon("mid.svg"), "Mid Power")
+        midAction.triggered.connect(lambda: power_profile_set("mid"))
+
+        highAction = menu.addAction(QtGui.QIcon("high.svg"), "High Power")
+        highAction.triggered.connect(lambda: power_profile_set("high"))
+
+        sep1 = menu.addSeparator()
+
         exitAction = menu.addAction("Exit")
+        exitAction.triggered.connect(QtGui.qApp.quit)
+
         self.setContextMenu(menu)
+
 
 def main():
     #Main function
@@ -56,13 +71,17 @@ def power_status_get():
 
 def power_profile_set(new_power_profile):
     #Change the power profile
-    with open("/sys/class/drm/card0/device/power_profile","r") as f:
+    with open("/sys/class/drm/card0/device/power_profile","w") as f:
         f.write(new_power_profile + "\n")
 
 def power_method_set(new_power_method):
     #Change the power method
-    with open("/sys/class/drm/card0/device/power_method","r") as f:
+    with open("/sys/class/drm/card0/device/power_method","w") as f:
         f.write(new_power_method + "\n")
+
+def stub(a):
+    print(a)
+
 
 if __name__ == '__main__':
     main()
