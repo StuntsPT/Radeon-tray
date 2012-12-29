@@ -10,20 +10,45 @@ from PyQt4 import QtGui
 
 class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
-    def __init__(self, icon, parent=None):
+    def __init__(self, icon, parent, method, profile, cards):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
         menu = QtGui.QMenu(parent)
-        lowAction = menu.addAction(QtGui.QIcon("low.svg"), "Low Power")
-        lowAction.triggered.connect(lambda: power_profile_set("low"))
-        lowAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("low.svg")))
 
-        midAction = menu.addAction(QtGui.QIcon("mid.svg"), "Mid Power")
-        midAction.triggered.connect(lambda: power_profile_set("mid"))
-        midAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("mid.svg")))
+        current_methodAction = menu.addAction(QtGui.QIcon("low.svg"), "Current power method: " + method)
+
+        sep0 = menu.addSeparator()
 
         highAction = menu.addAction(QtGui.QIcon("high.svg"), "High Power")
-        highAction.triggered.connect(lambda: power_profile_set("high"))
+        highAction.triggered.connect(lambda: power_profile_set("high", cards))
         highAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("high.svg")))
+        highAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        highAction.triggered.connect(lambda: midAction.setEnabled(True))
+        highAction.triggered.connect(lambda: highAction.setEnabled(False))
+        highAction.triggered.connect(lambda: autoAction.setEnabled(True))
+
+        midAction = menu.addAction(QtGui.QIcon("mid.svg"), "Mid Power")
+        midAction.triggered.connect(lambda: power_profile_set("mid", cards))
+        midAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("mid.svg")))
+        midAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        midAction.triggered.connect(lambda: midAction.setEnabled(False))
+        midAction.triggered.connect(lambda: highAction.setEnabled(True))
+        midAction.triggered.connect(lambda: autoAction.setEnabled(True))
+
+        lowAction = menu.addAction(QtGui.QIcon("low.svg"), "Low Power")
+        lowAction.triggered.connect(lambda: power_profile_set("low", cards))
+        lowAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("low.svg")))
+        lowAction.triggered.connect(lambda: lowAction.setEnabled(False))
+        lowAction.triggered.connect(lambda: midAction.setEnabled(True))
+        lowAction.triggered.connect(lambda: highAction.setEnabled(True))
+        lowAction.triggered.connect(lambda: autoAction.setEnabled(True))
+
+        autoAction = menu.addAction(QtGui.QIcon("auto.svg"), "Auto")
+        autoAction.triggered.connect(lambda: power_profile_set("auto", cards))
+        autoAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("auto.svg")))
+        autoAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        autoAction.triggered.connect(lambda: midAction.setEnabled(True))
+        autoAction.triggered.connect(lambda: highAction.setEnabled(True))
+        autoAction.triggered.connect(lambda: autoAction.setEnabled(False))
 
         sep1 = menu.addSeparator()
 
@@ -46,7 +71,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
 
     w = QtGui.QWidget()
-    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w)
+    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w, init_method, init_profile, cards)
 
     trayIcon.show()
     sys.exit(app.exec_())
@@ -71,18 +96,17 @@ def power_status_get():
         power_profile = f.readline().strip()
     return power_method, power_profile
 
-def power_profile_set(new_power_profile):
+def power_profile_set(new_power_profile, cards):
     #Change the power profile
-    with open("/sys/class/drm/card0/device/power_profile","w") as f:
-        f.write(new_power_profile + "\n")
+    for i in range(cards):
+        with open("/sys/class/drm/card%s/device/power_profile" %(i),"w") as f:
+            f.write(new_power_profile + "\n")
 
-def power_method_set(new_power_method):
+def power_method_set(new_power_method, cards):
     #Change the power method
-    with open("/sys/class/drm/card0/device/power_method","w") as f:
-        f.write(new_power_method + "\n")
-
-def stub(a):
-    print(a)
+    for i in range(cards):
+        with open("/sys/class/drm/card%s/device/power_method" %(i),"w") as f:
+            f.write(new_power_method + "\n")
 
 
 if __name__ == '__main__':
