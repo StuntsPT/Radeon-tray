@@ -15,13 +15,15 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         menu = QtGui.QMenu(parent)
         lowAction = menu.addAction(QtGui.QIcon("low.svg"), "Low Power")
         lowAction.triggered.connect(lambda: power_profile_set("low"))
-
+        lowAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("low.svg")))
 
         midAction = menu.addAction(QtGui.QIcon("mid.svg"), "Mid Power")
         midAction.triggered.connect(lambda: power_profile_set("mid"))
+        midAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("mid.svg")))
 
         highAction = menu.addAction(QtGui.QIcon("high.svg"), "High Power")
         highAction.triggered.connect(lambda: power_profile_set("high"))
+        highAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("high.svg")))
 
         sep1 = menu.addSeparator()
 
