@@ -21,10 +21,15 @@ def main():
     cards = verifier()
     init_method, init_profile = power_status_get()
 
+    if init_method == "dynpm":
+        icon = "dynpm.svg"
+    else:
+        icon = init_profile + ".svg"
+
     app = QtGui.QApplication(sys.argv)
 
     w = QtGui.QWidget()
-    trayIcon = SystemTrayIcon(QtGui.QIcon("mid.svg"), w)
+    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w)
 
     trayIcon.show()
     sys.exit(app.exec_())
@@ -49,7 +54,15 @@ def power_status_get():
         power_profile = f.readline().strip()
     return power_method, power_profile
 
+def power_profile_set(new_power_profile):
+    #Change the power profile
+    with open("/sys/class/drm/card0/device/power_profile","r") as f:
+        f.write(new_power_profile + "\n")
 
+def power_method_set(new_power_method):
+    #Change the power method
+    with open("/sys/class/drm/card0/device/power_method","r") as f:
+        f.write(new_power_method + "\n")
 
 if __name__ == '__main__':
     main()
