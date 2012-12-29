@@ -1,9 +1,5 @@
 #!/usr/bin/python3
 
-#See:
-#http://stackoverflow.com/questions/893984/pyqt-show-menu-in-a-system-tray-application
-
-
 import sys
 from os import path
 from PyQt4 import QtGui
@@ -14,7 +10,16 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
         menu = QtGui.QMenu(parent)
 
-        current_methodAction = menu.addAction(QtGui.QIcon("low.svg"), "Current power method: " + method)
+        if method == "dynpm":
+            current_methodAction = menu.addAction(QtGui.QIcon("dynpm.svg"), "Current power method: " + method)
+        else:
+            current_methodAction = menu.addAction(QtGui.QIcon(profile + ".svg"), "Current power method: " + method)
+        current_methodAction.setStatusTip("Click to toggle between profile and dynpm modes.")
+
+        current_methodAction.triggered.connect(lambda: current_methodAction.setIcon(QtGui.QIcon(profile + ".svg")) if current_methodAction.text() == "Current power method: dynpm" else current_methodAction.setIcon(QtGui.QIcon("dynpm.svg")))
+        current_methodAction.triggered.connect(lambda: power_method_set("profile", cards) if current_methodAction.text() == "Current power method: dynpm" else power_method_set("dynpm", cards))
+        current_methodAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon(profile + ".svg")) if current_methodAction.text() == "Current power method: dynpm" else self.setIcon(QtGui.QIcon("dynpm.svg")))
+        current_methodAction.triggered.connect(lambda: current_methodAction.setText("Current power method: profile") if current_methodAction.text() == "Current power method: dynpm" else current_methodAction.setText("Current power method: dynpm"))
 
         sep0 = menu.addSeparator()
 
@@ -55,8 +60,16 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         exitAction = menu.addAction("Exit")
         exitAction.triggered.connect(QtGui.qApp.quit)
 
-        self.setContextMenu(menu)
+        if profile == "low":
+            lowAction.setEnabled(False)
+        if profile == "mid":
+            midAction.setEnabled(False)
+        if profile == "high":
+            highAction.setEnabled(False)
+        if profile == "auto":
+            autoAction.setEnabled(False)
 
+        self.setContextMenu(menu)
 
 def main():
     #Main function
@@ -90,6 +103,7 @@ drivers?\nExiting the program.")
     return cards
 
 def power_status_get():
+    #Get the power status. Uses with to close the file immediatelly
     with open("/sys/class/drm/card0/device/power_method","r") as f:
         power_method = f.readline().strip()
     with open("/sys/class/drm/card0/device/power_profile","r") as f:
