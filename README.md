@@ -28,8 +28,8 @@ That's about it.
 
 ###Credits:
 You can read more about power profiles [here](http://www.x.org/wiki/RadeonFeat\
-ure#KMS_Power_Management_Options "X.org documentation on Radeon power profiles")
-.
+ure#KMS_Power_Management_Options "X.org documentation on Radeon power profiles"\
+).
 
 This program was inspired by my [Gnome-shell extension](https://github.com/Stun\
 tsPT/shell-extension-radeon-power-profile-manager). But this one will work on
