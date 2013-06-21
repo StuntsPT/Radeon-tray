@@ -21,9 +21,11 @@ from PyQt4 import QtGui
 
 class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
-    def __init__(self, icon, parent, method, profile, cards):
+    def __init__(self, icon, parent, method, profile, cards, temp_path):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
         menu = QtGui.QMenu(parent)
+
+        self.temp_path = temp_path
 
         if method == "dynpm":
             current_methodAction = menu.addAction(QtGui.QIcon("dynpm.svg"), "Current power method: " + method)
@@ -72,6 +74,10 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         sep1 = menu.addSeparator()
 
+        self.temp_label = menu.addAction(temp_checker(temp_path))
+
+        sep2 = menu.addSeparator()
+
         exitAction = menu.addAction("Exit")
         exitAction.triggered.connect(QtGui.qApp.quit)
 
@@ -86,10 +92,37 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         self.setContextMenu(menu)
 
+        self.activated.connect(self.click_trap)
+
+    def click_trap(self, val):
+        if val == 1:
+            t = temp_checker(self.temp_path)
+            self.temp_label.setText(t)
+
+def temp_location():
+    """
+    Tests a few paths for card temperature
+    """
+    path_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input"]
+    temp_path = ""
+    for paths in path_list:
+        if path.exists(paths):
+            temp_path = paths
+    
+    return temp_path
+
+def temp_checker(temp_path):
+    if temp_path == "":
+        return "No temperature info"
+    temperature = open(temp_path,'r').read()
+    temp = str(int(temperature) / 1000) + "ºC"
+    return temp
+
 def main():
     #Main function
     cards = verifier()
     init_method, init_profile = power_status_get()
+    temp_path = temp_location()
 
     if init_method == "dynpm":
         icon = "dynpm.svg"
@@ -99,8 +132,8 @@ def main():
     app = QtGui.QApplication(sys.argv)
 
     w = QtGui.QWidget()
-    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w, init_method, init_profile, cards)
-
+    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w, init_method, init_profile, cards, temp_path)
+    
     trayIcon.show()
     sys.exit(app.exec_())
 
@@ -136,6 +169,7 @@ def power_method_set(new_power_method, cards):
     for i in range(cards):
         with open("/sys/class/drm/card%s/device/power_method" %(i),"w") as f:
             f.write(new_power_method + "\n")
+
 
 
 if __name__ == '__main__':
