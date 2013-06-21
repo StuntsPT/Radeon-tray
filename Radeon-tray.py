@@ -71,7 +71,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         dynpmAction = menu.addAction(QtGui.QIcon("dynpm.svg"), "Dynpm")
         dynpmAction.triggered.connect(lambda: power_profile_set("default", cards))
         dynpmAction.triggered.connect(lambda: power_method_set("dynpm", cards))
-        dynpmAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("auto.svg")))
+        dynpmAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("dynpm.svg")))
         dynpmAction.triggered.connect(lambda: lowAction.setEnabled(True))
         dynpmAction.triggered.connect(lambda: midAction.setEnabled(True))
         dynpmAction.triggered.connect(lambda: highAction.setEnabled(True))
@@ -91,6 +91,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             highAction.setEnabled(False)
         if profile == "auto":
             autoAction.setEnabled(False)
+        if method == "dynpm":
+            dynpmAction.setEnabled(False)
 
         self.setContextMenu(menu)
         
@@ -175,7 +177,6 @@ def power_profile_set(new_power_profile, cards):
     #Change the power profile
     for i in range(cards):
         with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
-            print(new_power_profile)
             f.write(new_power_profile + "\n")
 
 def power_method_set(new_power_method, cards):
