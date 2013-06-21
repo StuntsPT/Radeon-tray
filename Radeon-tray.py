@@ -17,58 +17,66 @@
 
 import sys
 from os import path
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 
 class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
     def __init__(self, icon, parent, method, profile, cards):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
+        
+        self.setToolTip("Radeon-Tray")
+        
         menu = QtGui.QMenu(parent)
 
-        if method == "dynpm":
-            current_methodAction = menu.addAction(QtGui.QIcon("dynpm.svg"), "Current power method: " + method)
-        else:
-            current_methodAction = menu.addAction(QtGui.QIcon(profile + ".svg"), "Current power method: " + method)
-        current_methodAction.setStatusTip("Click to toggle between profile and dynpm modes.")
-
-        current_methodAction.triggered.connect(lambda: current_methodAction.setIcon(QtGui.QIcon(profile + ".svg")) if current_methodAction.text() == "Current power method: dynpm" else current_methodAction.setIcon(QtGui.QIcon("dynpm.svg")))
-        current_methodAction.triggered.connect(lambda: power_method_set("profile", cards) if current_methodAction.text() == "Current power method: dynpm" else power_method_set("dynpm", cards))
-        current_methodAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon(profile + ".svg")) if current_methodAction.text() == "Current power method: dynpm" else self.setIcon(QtGui.QIcon("dynpm.svg")))
-        current_methodAction.triggered.connect(lambda: current_methodAction.setText("Current power method: profile") if current_methodAction.text() == "Current power method: dynpm" else current_methodAction.setText("Current power method: dynpm"))
-
-        sep0 = menu.addSeparator()
-
         highAction = menu.addAction(QtGui.QIcon("high.svg"), "High Power")
+        highAction.triggered.connect(lambda: power_method_set("profile", cards))
         highAction.triggered.connect(lambda: power_profile_set("high", cards))
         highAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("high.svg")))
         highAction.triggered.connect(lambda: lowAction.setEnabled(True))
         highAction.triggered.connect(lambda: midAction.setEnabled(True))
         highAction.triggered.connect(lambda: highAction.setEnabled(False))
         highAction.triggered.connect(lambda: autoAction.setEnabled(True))
+        highAction.triggered.connect(lambda: dynpmAction.setEnabled(True))
 
         midAction = menu.addAction(QtGui.QIcon("mid.svg"), "Mid Power")
+        midAction.triggered.connect(lambda: power_method_set("profile", cards))
         midAction.triggered.connect(lambda: power_profile_set("mid", cards))
         midAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("mid.svg")))
         midAction.triggered.connect(lambda: lowAction.setEnabled(True))
         midAction.triggered.connect(lambda: midAction.setEnabled(False))
         midAction.triggered.connect(lambda: highAction.setEnabled(True))
         midAction.triggered.connect(lambda: autoAction.setEnabled(True))
+        midAction.triggered.connect(lambda: dynpmAction.setEnabled(True))
 
         lowAction = menu.addAction(QtGui.QIcon("low.svg"), "Low Power")
+        lowAction.triggered.connect(lambda: power_method_set("profile", cards))
         lowAction.triggered.connect(lambda: power_profile_set("low", cards))
         lowAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("low.svg")))
         lowAction.triggered.connect(lambda: lowAction.setEnabled(False))
         lowAction.triggered.connect(lambda: midAction.setEnabled(True))
         lowAction.triggered.connect(lambda: highAction.setEnabled(True))
         lowAction.triggered.connect(lambda: autoAction.setEnabled(True))
+        lowAction.triggered.connect(lambda: dynpmAction.setEnabled(True))
 
         autoAction = menu.addAction(QtGui.QIcon("auto.svg"), "Auto")
+        autoAction.triggered.connect(lambda: power_method_set("profile", cards))
         autoAction.triggered.connect(lambda: power_profile_set("auto", cards))
         autoAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("auto.svg")))
         autoAction.triggered.connect(lambda: lowAction.setEnabled(True))
         autoAction.triggered.connect(lambda: midAction.setEnabled(True))
         autoAction.triggered.connect(lambda: highAction.setEnabled(True))
         autoAction.triggered.connect(lambda: autoAction.setEnabled(False))
+        autoAction.triggered.connect(lambda: dynpmAction.setEnabled(True))
+        
+        dynpmAction = menu.addAction(QtGui.QIcon("dynpm.svg"), "Dynpm")
+        dynpmAction.triggered.connect(lambda: power_profile_set("default", cards))
+        dynpmAction.triggered.connect(lambda: power_method_set("dynpm", cards))
+        dynpmAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("auto.svg")))
+        dynpmAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        dynpmAction.triggered.connect(lambda: midAction.setEnabled(True))
+        dynpmAction.triggered.connect(lambda: highAction.setEnabled(True))
+        dynpmAction.triggered.connect(lambda: autoAction.setEnabled(True))
+        dynpmAction.triggered.connect(lambda: dynpmAction.setEnabled(False))
 
         sep1 = menu.addSeparator()
 
@@ -85,6 +93,30 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             autoAction.setEnabled(False)
 
         self.setContextMenu(menu)
+        
+        QtCore.QObject.connect(
+            self,
+            QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"),
+            self.show_status)
+    
+    def show_status(self, act_reas):
+        """Show current card status
+        
+        Reasons:
+            0: unknown reason
+            1: request for the context menu
+            2: double clicked
+            3: one click
+            4: click with the middle button
+        
+        Icons:
+            NoIcon, Information, Warning, Critical
+        """
+        if act_reas == 3:
+            self.showMessage("Radeon-INFO",
+                radeon_info_get(), self.Information, 10000)
+    
+    
 
 def main():
     #Main function
@@ -117,24 +149,39 @@ def verifier():
 drivers?\nExiting the program.")
     return cards
 
-def power_status_get():
+def radeon_info_get():
+    """Get the power info
+    """
+    cards = verifier()
+    radeon_info = ""
+    for xx in range(cards):
+        radeon_info += "----- Card%d -----\n" % xx
+        radeon_info += "Power method: %s\nPower profile: %s\n" % power_status_get(xx)
+        with open("/sys/kernel/debug/dri/"+str(xx)+"/radeon_pm_info","r") as ff:
+            radeon_info += ff.read().strip()
+        radeon_info += "\n---------------"
+    return radeon_info
+
+
+def power_status_get(num=0):
     #Get the power status. Uses with to close the file immediatelly
-    with open("/sys/class/drm/card0/device/power_method","r") as f:
+    with open("/sys/class/drm/card"+str(num)+"/device/power_method","r") as f:
         power_method = f.readline().strip()
-    with open("/sys/class/drm/card0/device/power_profile","r") as f:
+    with open("/sys/class/drm/card"+str(num)+"/device/power_profile","r") as f:
         power_profile = f.readline().strip()
     return power_method, power_profile
 
 def power_profile_set(new_power_profile, cards):
     #Change the power profile
     for i in range(cards):
-        with open("/sys/class/drm/card%s/device/power_profile" %(i),"w") as f:
+        with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
+            print(new_power_profile)
             f.write(new_power_profile + "\n")
 
 def power_method_set(new_power_method, cards):
     #Change the power method
     for i in range(cards):
-        with open("/sys/class/drm/card%s/device/power_method" %(i),"w") as f:
+        with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
             f.write(new_power_method + "\n")
 
 
