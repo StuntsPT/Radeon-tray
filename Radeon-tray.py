@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 # Copyright 2012 Francisco Pina Martins <f.pinamartins@gmail.com>
 # This file is part of Radeon-tray.
@@ -18,6 +18,9 @@
 import sys
 from os import path
 from PyQt4 import QtGui, QtCore
+
+PROFILE_PATH = path.join(path.dirname(__file__), "last_power_profile")
+METHOD_PATH= path.join(path.dirname(__file__), "last_power_method")
 
 class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
@@ -96,6 +99,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         self.setContextMenu(menu)
         
+        # Connect object to activated signal to grab single click
+        # on tray icon
         QtCore.QObject.connect(
             self,
             QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"),
@@ -123,6 +128,14 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 def main():
     #Main function
     cards = verifier()
+    init_method, init_profile = power_status_get()
+    l_method, l_profile = last_power_status_get()
+    
+    # Check if is lost the last configuration
+    if l_method != init_method and l_profile != init_profile:
+        power_profile_set(l_profile, cards)
+        power_method_set(l_method, cards)
+    
     init_method, init_profile = power_status_get()
 
     if init_method == "dynpm":
@@ -166,24 +179,40 @@ def radeon_info_get():
 
 
 def power_status_get(num=0):
-    #Get the power status. Uses with to close the file immediatelly
+    """Get the power status. Uses with to close the file immediatelly
+    """
     with open("/sys/class/drm/card"+str(num)+"/device/power_method","r") as f:
         power_method = f.readline().strip()
     with open("/sys/class/drm/card"+str(num)+"/device/power_profile","r") as f:
         power_profile = f.readline().strip()
     return power_method, power_profile
 
+def last_power_status_get():
+    """Get the last power status
+    """
+    with open(METHOD_PATH, "r") as f:
+        power_method = f.readline().strip()
+    with open(PROFILE_PATH, "r") as f:
+        power_profile = f.readline().strip()
+    return power_method, power_profile
+
 def power_profile_set(new_power_profile, cards):
-    #Change the power profile
+    """Change the power profile
+    """
     for i in range(cards):
         with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
-            f.write(new_power_profile + "\n")
+            f.write(new_power_profile)
+    with open(PROFILE_PATH, "w") as fs:
+        fs.write(new_power_profile)
 
 def power_method_set(new_power_method, cards):
-    #Change the power method
+    """Change the power method
+    """
     for i in range(cards):
         with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
-            f.write(new_power_method + "\n")
+            f.write(new_power_method)
+    with open("METHOD_PATH", "w") as fs:
+        fs.write(new_power_method)
 
 
 if __name__ == '__main__':
