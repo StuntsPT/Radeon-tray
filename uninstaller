@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DIR=/usr/local/lib/Radeon-tray
+
+if [ -d "$DIR" ] ; then
+    echo "--> Delete dir and files"
+    rm -R "$DIR"
+fi
+
+echo "--> Delete executables"
+rm /usr/local/bin/radeontray
+rm /usr/local/bin/radeonpmserver
+
+echo "--> Stop service"
+systemctl stop radeonpm.service
+echo "--> Disable service"
+systemctl disable radeonpm.service
+echo "--> Delete service"
+rm /lib/systemd/system/radeonpm.service

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/python /usr/local/lib/Radeon-tray/Radeon-tray.py "$@"
