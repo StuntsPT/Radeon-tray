@@ -21,7 +21,8 @@ might be I will just add it here).
 
 ###Requirements:
 * A radeon card (duh!);
-* Python3;
+* ~~Python3;~~
+* Python2 or Python3 - both are supported;
 * PyQt4;
 
 ###Usage:
