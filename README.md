@@ -14,6 +14,11 @@ should file a bug at freedesktop.org.
 
 This is just to alert you that YMMV when using this program.
 
+The program now also supports providing information regarding the card temperature
+*if* a sensor is found in a list of paths. Currentlly only the path for my specific
+card is listed, but feel free to add your own (and if you let me know what that path
+might be I will just add it here).
+
 ###Requirements:
 * A radeon card (duh!);
 * Python3;
