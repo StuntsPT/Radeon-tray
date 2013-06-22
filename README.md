@@ -20,7 +20,7 @@ Currentlly only the path for my specific card is listed, but feel free to add yo
 
 ###Requirements:
 * A radeon card (duh!) with KMS
-*~~Python3~~
+* ~~Python3~~
 * Python2 or Python3 - both are supported
 * PyQt4
 * zmq
