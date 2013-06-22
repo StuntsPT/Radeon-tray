@@ -3,7 +3,7 @@
 This is a small program to control the power profiles of your Radeon card via
 systray icon.
 
-It is written in PyQt4 using python 2 (also working on python 3).
+It is written in PyQt4 using python 3 (also working on python 2).
 
 It supports setups with single and multiple cards.
 
@@ -14,11 +14,16 @@ should file a bug at freedesktop.org.
 
 This is just to alert you that YMMV when using this program.
 
+The program now also supports providing information regarding the card temperature if a sensor is found in a list of paths. 
+Currentlly only the path for my specific card is listed, but feel free to add your own 
+(and if you let me know what that path might be I will just add it here).
+
 ###Requirements:
-* A radeon card (duh!) with KMS;
-* Python3;
-* PyQt4;
-* zmq;
+* A radeon card (duh!) with KMS
+*~~Python3~~
+* Python2 or Python3 - both are supported
+* PyQt4
+* zmq
 
 ###Usage without installer:
 Just run Radeon-tray.py. It should place an icon in your systray, which you can
