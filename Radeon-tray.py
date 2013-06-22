@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # Copyright 2012 Francisco Pina Martins <f.pinamartins@gmail.com>
 # This file is part of Radeon-tray.
@@ -234,6 +235,25 @@ def verifier():
 drivers?\nExiting the program.")
     return cards
 
+def temp_location():
+    """Tests a few paths for card temperatur
+    """
+    paths_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input"]
+    temp_path = ""
+    for tpath in paths_list:
+        if path.exists(tpath):
+            temp_path = tpath
+    
+    return temp_path
+
+def temp_checker(temp_path):
+    if temp_path == "":
+        return "No temperature info"
+    with open(temp_path, "r") as f:
+        temperature = f.read()
+    temp = str(int(temperature) / 1000) + "°C"
+    return temp
+
 def radeon_info_get():
     """Get the power info
     """
@@ -247,6 +267,7 @@ def radeon_info_get():
     for xx in range(cards):
         radeon_info += "----- Card%d -----\n" % xx
         radeon_info += "Power method: %s\nPower profile: %s\n" % power_status_get(xx)
+        radeon_info += temp_checker(temp_location()) + "\n"
         try:
             with open("/sys/kernel/debug/dri/"+str(xx)+"/radeon_pm_info","r") as ff:
                 radeon_info += ff.read().strip()
@@ -311,7 +332,7 @@ def power_method_set(new_power_method, cards):
         for i in range(cards):
             with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
                 f.write(new_power_method)
-        with open("METHOD_PATH", "w") as fs:
+        with open(METHOD_PATH, "w") as fs:
             fs.write(new_power_method)
     except IOError:
         return False
