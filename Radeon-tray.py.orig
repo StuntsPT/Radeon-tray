@@ -40,14 +40,15 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
     def __init__(self, icon, parent, method, profile, cards, temp_path):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
-
+        
         self.setToolTip("Radeon-Tray")
         self.method = method
         self.profile = profile
         self.cards = cards
-
+        
         menu = QtGui.QMenu(parent)
 
+<<<<<<< HEAD
         self.temp_path = temp_path
 
         if method == "dynpm":
@@ -63,6 +64,38 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         sep0 = menu.addSeparator()
 
+        highAction = menu.addAction(QtGui.QIcon("high.svg"), "High Power")
+        highAction.triggered.connect(lambda: power_profile_set("high", cards))
+        highAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("high.svg")))
+        highAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        highAction.triggered.connect(lambda: midAction.setEnabled(True))
+        highAction.triggered.connect(lambda: highAction.setEnabled(False))
+        highAction.triggered.connect(lambda: autoAction.setEnabled(True))
+
+        midAction = menu.addAction(QtGui.QIcon("mid.svg"), "Mid Power")
+        midAction.triggered.connect(lambda: power_profile_set("mid", cards))
+        midAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("mid.svg")))
+        midAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        midAction.triggered.connect(lambda: midAction.setEnabled(False))
+        midAction.triggered.connect(lambda: highAction.setEnabled(True))
+        midAction.triggered.connect(lambda: autoAction.setEnabled(True))
+
+        lowAction = menu.addAction(QtGui.QIcon("low.svg"), "Low Power")
+        lowAction.triggered.connect(lambda: power_profile_set("low", cards))
+        lowAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("low.svg")))
+        lowAction.triggered.connect(lambda: lowAction.setEnabled(False))
+        lowAction.triggered.connect(lambda: midAction.setEnabled(True))
+        lowAction.triggered.connect(lambda: highAction.setEnabled(True))
+        lowAction.triggered.connect(lambda: autoAction.setEnabled(True))
+
+        autoAction = menu.addAction(QtGui.QIcon("auto.svg"), "Auto")
+        autoAction.triggered.connect(lambda: power_profile_set("auto", cards))
+        autoAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon("auto.svg")))
+        autoAction.triggered.connect(lambda: lowAction.setEnabled(True))
+        autoAction.triggered.connect(lambda: midAction.setEnabled(True))
+        autoAction.triggered.connect(lambda: highAction.setEnabled(True))
+        autoAction.triggered.connect(lambda: autoAction.setEnabled(False))
+=======
         self.high_action = menu.addAction(QtGui.QIcon(HIGHPATH), "High Power")
         self.high_action.triggered.connect(self.activate_high)
 
@@ -74,9 +107,10 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         self.autoAction = menu.addAction(QtGui.QIcon(AUTOPATH), "Auto")
         self.autoAction.triggered.connect(self.activate_auto)
-
+        
         self.dynpmAction = menu.addAction(QtGui.QIcon(DYNPMPATH), "Dynpm")
         self.dynpmAction.triggered.connect(self.activate_dynpm)
+>>>>>>> eb5b7b64a4a9359378b3fcd5e47a72fbf1ab868e
 
         sep1 = menu.addSeparator()
 
@@ -90,14 +124,14 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.checkStatus()
 
         self.setContextMenu(menu)
-
+        
         # Connect object to activated signal to grab single click
         # on tray icon
         QtCore.QObject.connect(
             self,
             QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"),
             self.show_status)
-
+    
     def activate_high(self):
         """Activate high profile
         """
@@ -112,7 +146,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.high_action.setEnabled(False)
         self.autoAction.setEnabled(True)
         self.dynpmAction.setEnabled(True)
-
+    
     def activate_mid(self):
         """Activate mid profile
         """
@@ -127,7 +161,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.high_action.setEnabled(True)
         self.autoAction.setEnabled(True)
         self.dynpmAction.setEnabled(True)
-
+    
     def activate_low(self):
         """Activate low profile
         """
@@ -142,7 +176,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.high_action.setEnabled(True)
         self.autoAction.setEnabled(True)
         self.dynpmAction.setEnabled(True)
-
+    
     def activate_auto(self):
         """Activate auto profile
         """
@@ -157,7 +191,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.high_action.setEnabled(True)
         self.autoAction.setEnabled(False)
         self.dynpmAction.setEnabled(True)
-
+      
     def activate_dynpm(self):
         """Activate dynpm method with default profile
         """
@@ -172,7 +206,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.high_action.setEnabled(True)
         self.autoAction.setEnabled(True)
         self.dynpmAction.setEnabled(False)
-
+    
     def checkStatus(self):
         if self.profile == "low":
             self.lowAction.setEnabled(False)
@@ -189,26 +223,26 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         if self.method == "dynpm":
             self.dynpmAction.setEnabled(False)
             self.setIcon(QtGui.QIcon(DYNPMPATH))
-
-
+    
+    
     def show_status(self, act_reas):
         """Show current card status
-
+        
         Reasons:
             0: unknown reason
             1: request for the context menu
             2: double clicked
             3: one click
             4: click with the middle button
-
+        
         Icons:
             NoIcon, Information, Warning, Critical
         """
         if act_reas == 3:
             self.showMessage("Radeon-INFO",
                 radeon_info_get(), self.Information, 10000)
-
-
+    
+    
 
         self.activated.connect(self.click_trap)
 
@@ -226,7 +260,7 @@ def temp_location():
     for paths in path_list:
         if path.exists(paths):
             temp_path = paths
-
+    
     return temp_path
 
 def temp_checker(temp_path):
@@ -240,15 +274,18 @@ def main():
     #Main function
     cards = verifier()
     init_method, init_profile = power_status_get()
+<<<<<<< HEAD
     temp_path = temp_location()
+=======
     l_method, l_profile = last_power_status_get()
-
+    
     # Check if is lost the last configuration
     if l_method != init_method and l_profile != init_profile:
         power_profile_set(l_profile, cards)
         power_method_set(l_method, cards)
-
+    
     init_method, init_profile = power_status_get()
+>>>>>>> eb5b7b64a4a9359378b3fcd5e47a72fbf1ab868e
 
     if init_method == "dynpm":
         icon = DYNPMPATH
@@ -259,7 +296,7 @@ def main():
 
     w = QtGui.QWidget()
     trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w, init_method, init_profile, cards, temp_path)
-
+    
     trayIcon.show()
     sys.exit(app.exec_())
 
@@ -270,7 +307,7 @@ def verifier():
         SOCKET.send("verifier")
         message = SOCKET.recv()
         return int(message)
-
+    
     cards = 0
     if path.isdir("/sys/class/drm/card0"):
         cards += 1
@@ -289,7 +326,7 @@ def temp_location():
     for tpath in paths_list:
         if path.exists(tpath):
             temp_path = tpath
-
+    
     return temp_path
 
 def temp_checker(temp_path):
@@ -307,7 +344,7 @@ def radeon_info_get():
         SOCKET.send("info")
         message = SOCKET.recv()
         return message
-
+    
     cards = verifier()
     radeon_info = ""
     for xx in range(cards):
@@ -361,11 +398,11 @@ def power_profile_set(new_power_profile, cards):
             with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
                 f.write(new_power_profile)
         with open(PROFILE_PATH, "w") as fs:
-            fs.write(new_power_profile)
+            fs.write(new_power_profile) 
     except IOError:
         return False
     return True
-
+    
 
 def power_method_set(new_power_method, cards):
     """Change the power method
@@ -387,9 +424,13 @@ def power_method_set(new_power_method, cards):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
+    main()
+=======
     if len(sys.argv) > 1:
         if sys.argv[1] == "client":
             CONTEXT = zmq.Context()
             SOCKET = CONTEXT.socket(zmq.REQ)
             SOCKET.connect("tcp://localhost:%s" % PORT)
     main()
+>>>>>>> eb5b7b64a4a9359378b3fcd5e47a72fbf1ab868e

@@ -1,0 +1,11 @@
+[Unit]
+Description=Start radeonpm server program
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/radeonpmserver
+
+[Install]
+WantedBy=multi-user.target
+
