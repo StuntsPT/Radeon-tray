@@ -50,19 +50,6 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         self.temp_path = temp_path
 
-        if method == "dynpm":
-            current_methodAction = menu.addAction(QtGui.QIcon("dynpm.svg"), "Current power method: " + method)
-        else:
-            current_methodAction = menu.addAction(QtGui.QIcon(profile + ".svg"), "Current power method: " + method)
-        current_methodAction.setStatusTip("Click to toggle between profile and dynpm modes.")
-
-        current_methodAction.triggered.connect(lambda: current_methodAction.setIcon(QtGui.QIcon(profile + ".svg")) if current_methodAction.text() == "Current power method: dynpm" else current_methodAction.setIcon(QtGui.QIcon("dynpm.svg")))
-        current_methodAction.triggered.connect(lambda: power_method_set("profile", cards) if current_methodAction.text() == "Current power method: dynpm" else power_method_set("dynpm", cards))
-        current_methodAction.triggered.connect(lambda: self.setIcon(QtGui.QIcon(profile + ".svg")) if current_methodAction.text() == "Current power method: dynpm" else self.setIcon(QtGui.QIcon("dynpm.svg")))
-        current_methodAction.triggered.connect(lambda: current_methodAction.setText("Current power method: profile") if current_methodAction.text() == "Current power method: dynpm" else current_methodAction.setText("Current power method: dynpm"))
-
-        sep0 = menu.addSeparator()
-
         self.high_action = menu.addAction(QtGui.QIcon(HIGHPATH), "High Power")
         self.high_action.triggered.connect(self.activate_high)
 
