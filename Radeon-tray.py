@@ -38,7 +38,7 @@ settings, check the official site for information!"""
 
 class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
-    def __init__(self, icon, parent, method, profile, cards, temp_path):
+    def __init__(self, icon, parent, method, profile, cards):
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
 
         self.setToolTip("Radeon-Tray")
@@ -47,8 +47,6 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         self.cards = cards
 
         menu = QtGui.QMenu(parent)
-
-        self.temp_path = temp_path
 
         self.high_action = menu.addAction(QtGui.QIcon(HIGHPATH), "High Power")
         self.high_action.triggered.connect(self.activate_high)
@@ -64,10 +62,6 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         self.dynpmAction = menu.addAction(QtGui.QIcon(DYNPMPATH), "Dynpm")
         self.dynpmAction.triggered.connect(self.activate_dynpm)
-
-        sep1 = menu.addSeparator()
-
-        self.temp_label = menu.addAction(temp_checker(temp_path))
 
         sep2 = menu.addSeparator()
 
@@ -195,39 +189,10 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             self.showMessage("Radeon-INFO",
                 radeon_info_get(), self.Information, 10000)
 
-
-
-        self.activated.connect(self.click_trap)
-
-    def click_trap(self, val):
-        if val == 1:
-            t = temp_checker(self.temp_path)
-            self.temp_label.setText(t)
-
-def temp_location():
-    """
-    Tests a few paths for card temperature
-    """
-    path_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input"]
-    temp_path = ""
-    for paths in path_list:
-        if path.exists(paths):
-            temp_path = paths
-
-    return temp_path
-
-def temp_checker(temp_path):
-    if temp_path == "":
-        return "No temperature info"
-    temperature = open(temp_path,'r').read()
-    temp = str(int(temperature) / 1000) + "ºC"
-    return temp
-
 def main():
     #Main function
     cards = verifier()
     init_method, init_profile = power_status_get()
-    temp_path = temp_location()
     l_method, l_profile = last_power_status_get()
 
     # Check if is lost the last configuration
@@ -245,7 +210,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
 
     w = QtGui.QWidget()
-    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w, init_method, init_profile, cards, temp_path)
+    trayIcon = SystemTrayIcon(QtGui.QIcon(icon), w, init_method, init_profile, cards)
 
     trayIcon.show()
     sys.exit(app.exec_())
