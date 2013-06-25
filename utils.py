@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from os import path
+from os import path, makedirs
 import sys
 
-PROFILE_PATH = path.join(path.dirname(__file__), "last_power_profile")
-METHOD_PATH = path.join(path.dirname(__file__), "last_power_method")
+PROFILE_PATH = path.expanduser("~/.config/Radeon-tray/last_power_profile")
+METHOD_PATH = path.expanduser("~/.config/Radeon-tray/last_power_method")
 
 def verifier(client=None):
     #First we verify how many cards we are dealing with, if any. Quit if none
@@ -26,7 +26,7 @@ def verifier(client=None):
         return cards
 
 def temp_location():
-    """Tests a few paths for card temperatur
+    """Tests a few paths for card temperature
     """
     paths_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input"]
     temp_path = ""
@@ -37,6 +37,8 @@ def temp_location():
     return temp_path
 
 def temp_checker(temp_path):
+    """Check the card temperature in sysfs, if a suitable entry was found
+    """
     if temp_path == "":
         return "No temperature info"
     with open(temp_path, "r") as f:
@@ -132,3 +134,21 @@ def power_method_set(new_power_method, cards, client=None):
         except IOError:
             return False
         return True
+
+def paths_verification():
+    config_location = path.dirname(PROFILE_PATH)
+    if path.isdir(config_location) == False:
+        makedirs(config_location)
+        with open(METHOD_PATH, "w") as f:
+            f.write("profile")
+        with open(PROFILE_PATH, "w") as f:
+            f.write("default")
+        print("Warning: configuration path not found for this user. Created a new one here:%s\n" % (config_location))
+    elif path.isfile(PROFILE_PATH) == False or path.isfile(METHOD_PATH) == False:
+        with open(METHOD_PATH, "w") as f:
+            f.write("profile")
+        with open(PROFILE_PATH, "w") as f:
+            f.write("default")
+        print("Warning: configuration files not found for this user (but path exists). Created a new ones here:%s\n" % (config_location))
+
+paths_verification()

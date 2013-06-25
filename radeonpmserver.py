@@ -13,27 +13,27 @@ PORT = "5556"
 CARDS = verifier()
 
 if __name__ == '__main__':
-    
+
     #Main function
     init_method, init_profile = power_status_get().split(",")
     l_method, l_profile = last_power_status_get().split(",")
-    
-    # Check if is lost the last configuration
+
+    # Apply the last configuration if it differs from default
     if l_method != init_method or l_profile != init_profile:
         power_profile_set(l_profile, CARDS)
         power_method_set(l_method, CARDS)
-    
+
     if len(sys.argv) > 1:
         PORT = sys.argv[1]
     int(PORT)
-    
+
     CONTEXT = zmq.Context()
     SOCKET = CONTEXT.socket(zmq.REP)
     SOCKET.bind("tcp://*:%s" % PORT)
 
     while True:
         message = SOCKET.recv()
-        
+
         if message == "info":
             SOCKET.send(radeon_info_get())
         elif message == "verifier":

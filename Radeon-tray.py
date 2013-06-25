@@ -25,7 +25,8 @@ from utils import last_power_status_get, \
     power_profile_set, \
     power_status_get, \
     radeon_info_get, \
-    verifier
+    verifier, \
+    paths_verification
 
 
 PORT = "5556"
