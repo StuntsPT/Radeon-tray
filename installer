@@ -11,6 +11,7 @@ function copy_files {
     cp -vf "$PWD"/low.svg "$DIR"
     cp -vf "$PWD"/default.svg "$DIR"
     cp -vf "$PWD"/LICENSE "$DIR"
+    cp -vf "$PWD"/utils.py "$DIR"
     cp -vf "$PWD"/last_power_method "$DIR"
     cp -vf "$PWD"/last_power_profile "$DIR"
     cp -vf "$PWD"/radeonpmserver.py "$DIR"
