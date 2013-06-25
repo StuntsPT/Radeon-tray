@@ -119,8 +119,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def activate_low(self):
         """Activate low profile
         """
-        if not power_method_set("profile", self.cards) or\
-            not power_profile_set("low", self.cards):
+        if not power_method_set("profile", self.cards, client=SOCKET) or\
+            not power_profile_set("low", self.cards, client=SOCKET):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
