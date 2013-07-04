@@ -33,12 +33,12 @@ PORT = "5556"
 CONTEXT = None
 SOCKET = None
 
-HIGHPATH = path.join(path.dirname(__file__), "assets/high.svg")
-MIDPATH = path.join(path.dirname(__file__), "assets/mid.svg")
-LOWPATH = path.join(path.dirname(__file__), "assets/low.svg")
-AUTOPATH = path.join(path.dirname(__file__), "assets/auto.svg")
-DYNPMPATH = path.join(path.dirname(__file__), "assets/dynpm.svg")
-DEFAULTPATH = path.join(path.dirname(__file__), "assets/default.svg")
+HIGHPATH = path.join(path.dirname(__file__), "high.svg")
+MIDPATH = path.join(path.dirname(__file__), "mid.svg")
+LOWPATH = path.join(path.dirname(__file__), "low.svg")
+AUTOPATH = path.join(path.dirname(__file__), "auto.svg")
+DYNPMPATH = path.join(path.dirname(__file__), "dynpm.svg")
+DEFAULTPATH = path.join(path.dirname(__file__), "default.svg")
 NOPERM = """"You don't have the permission to write card's
 settings, check the official site for information!"""
 
