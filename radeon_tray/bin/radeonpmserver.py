@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import zmq
 import sys
-from utils import last_power_status_get, \
+from radeon_tray.utils import last_power_status_get, \
     power_method_set, \
     power_profile_set, \
     power_status_get, \

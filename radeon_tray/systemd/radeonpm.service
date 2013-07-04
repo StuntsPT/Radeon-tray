@@ -4,8 +4,7 @@ After=syslog.target network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/radeonpmserver
+ExecStart=/usr/sbin/radeonpmserver
 
 [Install]
 WantedBy=multi-user.target
-

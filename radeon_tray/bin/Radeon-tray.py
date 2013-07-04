@@ -20,7 +20,7 @@ import sys
 import zmq
 from os import path
 from PyQt4 import QtGui, QtCore
-from utils import last_power_status_get, \
+from radeon_tray.utils import last_power_status_get, \
     power_method_set, \
     power_profile_set, \
     power_status_get, \
