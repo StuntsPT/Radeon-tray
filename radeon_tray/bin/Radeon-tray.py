@@ -33,12 +33,12 @@ PORT = "5556"
 CONTEXT = None
 SOCKET = None
 
-HIGHPATH = path.join(path.dirname(__file__), "high.svg")
-MIDPATH = path.join(path.dirname(__file__), "mid.svg")
-LOWPATH = path.join(path.dirname(__file__), "low.svg")
-AUTOPATH = path.join(path.dirname(__file__), "auto.svg")
-DYNPMPATH = path.join(path.dirname(__file__), "dynpm.svg")
-DEFAULTPATH = path.join(path.dirname(__file__), "default.svg")
+HIGHPATH = "/usr/share/radeon-tray-high.svg"
+MIDPATH = "/usr/share/radeon-tray-mid.svg"
+LOWPATH = "/usr/share/radeon-tray-low.svg"
+AUTOPATH = "/usr/share/radeon-tray-auto.svg"
+DYNPMPATH = "/usr/share/radeon-tray-dynpm.svg"
+DEFAULTPATH = "/usr/share/radeon-tray-default.svg"
 NOPERM = """"You don't have the permission to write card's
 settings, check the official site for information!"""
 
