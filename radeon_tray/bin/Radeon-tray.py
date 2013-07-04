@@ -33,12 +33,12 @@ PORT = "5556"
 CONTEXT = None
 SOCKET = None
 
-HIGHPATH = "/usr/share/radeon-tray-high.svg"
-MIDPATH = "/usr/share/radeon-tray-mid.svg"
-LOWPATH = "/usr/share/radeon-tray-low.svg"
-AUTOPATH = "/usr/share/radeon-tray-auto.svg"
-DYNPMPATH = "/usr/share/radeon-tray-dynpm.svg"
-DEFAULTPATH = "/usr/share/radeon-tray-default.svg"
+HIGHPATH = "/usr/share/pixmaps/radeon-tray-high.svg"
+MIDPATH = "/usr/share/pixmaps/radeon-tray-mid.svg"
+LOWPATH = "/usr/share/pixmaps/radeon-tray-low.svg"
+AUTOPATH = "/usr/share/pixmaps/radeon-tray-auto.svg"
+DYNPMPATH = "/usr/share/pixmaps/radeon-tray-dynpm.svg"
+DEFAULTPATH = "/usr/share/pixmaps/radeon-tray-default.svg"
 NOPERM = """"You don't have the permission to write card's
 settings, check the official site for information!"""
 
