@@ -193,9 +193,11 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         Icons:
             NoIcon, Information, Warning, Critical
         """
+        
         if act_reas == 3:
+            string = radeon_info_get(client=SOCKET)
             self.showMessage("Radeon-INFO",
-                radeon_info_get(client=SOCKET), self.Information, 10000)
+                QtCore.QString.fromUtf8(string, len(string)), self.Information, 10000)
 
 def main():
     """Main function
