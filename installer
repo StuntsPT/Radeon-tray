@@ -4,12 +4,7 @@ DIR=/usr/local/lib/Radeon-tray
 
 function copy_files {
     cp -vf "$PWD"/Radeon-tray.py "$DIR"
-    cp -vf "$PWD"/auto.svg "$DIR"
-    cp -vf "$PWD"/dynpm.svg "$DIR"
-    cp -vf "$PWD"/high.svg "$DIR"
-    cp -vf "$PWD"/mid.svg "$DIR"
-    cp -vf "$PWD"/low.svg "$DIR"
-    cp -vf "$PWD"/default.svg "$DIR"
+    cp -vrf "$PWD"/assets "$DIR"
     cp -vf "$PWD"/LICENSE "$DIR"
     cp -vf "$PWD"/utils.py "$DIR"
     cp -vf "$PWD"/last_power_method "$DIR"
