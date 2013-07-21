@@ -33,12 +33,20 @@ PORT = "5556"
 CONTEXT = None
 SOCKET = None
 
-HIGHPATH = "/usr/share/pixmaps/radeon-tray-high.svg"
-MIDPATH = "/usr/share/pixmaps/radeon-tray-mid.svg"
-LOWPATH = "/usr/share/pixmaps/radeon-tray-low.svg"
-AUTOPATH = "/usr/share/pixmaps/radeon-tray-auto.svg"
-DYNPMPATH = "/usr/share/pixmaps/radeon-tray-dynpm.svg"
-DEFAULTPATH = "/usr/share/pixmaps/radeon-tray-default.svg"
+if os.path.exists("/usr/share/pixmaps/radeon-tray-high.svg"):
+    iconpath = "/usr/share/pixmaps"
+elif os.path.exists("/usr/local/share/pixmaps/radeon-tray-high.svg"):
+    iconpath = "/usr/local/share/pixmaps"
+else:
+    iconpath = ""
+    print("Icon path not found. Icons *will* be missing.")
+
+HIGHPATH = iconpath + "/radeon-tray-high.svg"
+MIDPATH = iconpath + "/radeon-tray-mid.svg"
+LOWPATH = iconpath + "/radeon-tray-low.svg"
+AUTOPATH = iconpath + "/radeon-tray-auto.svg"
+DYNPMPATH = iconpath + "/radeon-tray-dynpm.svg"
+DEFAULTPATH = iconpath + "/radeon-tray-default.svg"
 NOPERM = """"You don't have the permission to write card's
 settings, check the official site for information!"""
 
@@ -193,7 +201,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         Icons:
             NoIcon, Information, Warning, Critical
         """
-        
+
         if act_reas == 3:
             string = radeon_info_get(client=SOCKET)
             self.showMessage("Radeon-INFO",
