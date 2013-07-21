@@ -26,43 +26,24 @@ might be I will just add it here).
 * PyQt4
 * zmq
 
-###Usage without installer:
-Just run Radeon-tray.py. It should place an icon in your systray, which you can
-right click to change the power method (dynpm or profile) and the power profile
-(auto, low, mid, high or dynpm).
-
-As normal user you must set the permissions of ```/sys/class/drm/card0/device/power_profile```
-and of ```/sys/class/drm/card0/device/power_method``` to be writable by your user (by default
-only root can change these values and read debug info);
-
-```chmod a+w /sys/class/drm/card0/device/power_profile``` will work, but feel free to use any other method.
-To make the changes permanent don't forget to add the chmod line to your rc.local or equivalent in your distro
-(If your /etc/rc.local contains an exit 0 line, then the chmod line has to be placed before it).
-
-If you are using systemd, you can create ```/etc/tmpfiles.d/radeon-power-profile.conf``` with the following lines:
-```
-    w /sys/class/drm/card0/device/power_profile 0666 - - - mid
-    w /sys/class/drm/card0/device/power_method 0666 - - - profile
-```
-This will change the permissions of power_profile so that any user can change the power method and profile
-
-
-Do not forget to do the same to ```/sys/class/drm/cardX/...``` if you use more than one card!
-
-That's about it.
-
-**Note**: if you don't want to change files' privileges you can simply start the program with ```sudo python Radeon-tray.py```
-
 ###Usage with installer:
-The installer and uninstaller scripts need root privileges. They should only be executed like bash script from the program directory: ```sudo ./installer```
+The installer and uninstaller scripts need root privileges.
 
-The installer creates a service for the tray icon that starts with the system.
+The installer uses setup.py, and using it is quite simple:
 
-You need to manually add the tray icon program to the startup programs in your DE.
+```pythonX setup.py install```
 
-```command: radeontray client```
+Where "X" is the python verion you wish to use.
 
-You can also launch the command above in a shell after login.
+The installer creates a systemd service for the daemon that actually interacts
+with power management. The system tray icon will communicate with this daemon.
+
+You need to manually add the tray icon program to the startup programs in your
+DE.
+
+```command: Radeon-tray.py client```
+
+You can also launch the command above after login.
 
 **Note**: installer refers and work only with *systemd*.
 
