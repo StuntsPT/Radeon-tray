@@ -20,7 +20,7 @@ import sys
 import zmq
 from os import path
 from PyQt4 import QtGui, QtCore
-from radeon_tray.utils import last_power_status_get, \
+from radeontray.utils import last_power_status_get, \
     power_method_set, \
     power_profile_set, \
     power_status_get, \
@@ -29,24 +29,19 @@ from radeon_tray.utils import last_power_status_get, \
     paths_verification
 
 
+HOME = path.expanduser("~")
 PORT = "5556"
 CONTEXT = None
 SOCKET = None
 
-if os.path.exists("/usr/share/pixmaps/radeon-tray-high.svg"):
-    iconpath = "/usr/share/pixmaps"
-elif os.path.exists("/usr/local/share/pixmaps/radeon-tray-high.svg"):
-    iconpath = "/usr/local/share/pixmaps"
-else:
-    iconpath = ""
-    print("Icon path not found. Icons *will* be missing.")
+ICONPATH = "/usr/share/Radeon-tray-pixmaps"
 
-HIGHPATH = iconpath + "/radeon-tray-high.svg"
-MIDPATH = iconpath + "/radeon-tray-mid.svg"
-LOWPATH = iconpath + "/radeon-tray-low.svg"
-AUTOPATH = iconpath + "/radeon-tray-auto.svg"
-DYNPMPATH = iconpath + "/radeon-tray-dynpm.svg"
-DEFAULTPATH = iconpath + "/radeon-tray-default.svg"
+HIGHPATH = ICONPATH + "/radeon-tray-high.svg"
+MIDPATH = ICONPATH + "/radeon-tray-mid.svg"
+LOWPATH = ICONPATH + "/radeon-tray-low.svg"
+AUTOPATH = ICONPATH + "/radeon-tray-auto.svg"
+DYNPMPATH = ICONPATH + "/radeon-tray-dynpm.svg"
+DEFAULTPATH = ICONPATH + "/radeon-tray-default.svg"
 NOPERM = """"You don't have the permission to write card's
 settings, check the official site for information!"""
 
@@ -98,8 +93,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def activate_high(self):
         """Activate high profile
         """
-        if not power_method_set("profile", self.cards, client=SOCKET) or\
-            not power_profile_set("high", self.cards, client=SOCKET):
+        if not power_method_set("profile", self.cards, home=HOME, client=SOCKET) or\
+            not power_profile_set("high", self.cards, home=HOME, client=SOCKET):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
@@ -113,8 +108,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def activate_mid(self):
         """Activate mid profile
         """
-        if not power_method_set("profile", self.cards, client=SOCKET) or\
-            not power_profile_set("mid", self.cards, client=SOCKET):
+        if not power_method_set("profile", self.cards, home=HOME, client=SOCKET) or\
+            not power_profile_set("mid", self.cards, home=HOME, client=SOCKET):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
@@ -128,8 +123,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def activate_low(self):
         """Activate low profile
         """
-        if not power_method_set("profile", self.cards, client=SOCKET) or\
-            not power_profile_set("low", self.cards, client=SOCKET):
+        if not power_method_set("profile", self.cards, home=HOME, client=SOCKET) or\
+            not power_profile_set("low", self.cards, home=HOME, client=SOCKET):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
@@ -143,8 +138,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def activate_auto(self):
         """Activate auto profile
         """
-        if not power_method_set("profile", self.cards, client=SOCKET) or\
-            not power_profile_set("auto", self.cards, client=SOCKET):
+        if not power_method_set("profile", self.cards, home=HOME, client=SOCKET) or\
+            not power_profile_set("auto", self.cards, home=HOME, client=SOCKET):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
@@ -158,8 +153,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def activate_dynpm(self):
         """Activate dynpm method with default profile
         """
-        if not power_profile_set("default", self.cards, client=SOCKET) or\
-            not power_method_set("dynpm", self.cards, client=SOCKET):
+        if not power_profile_set("default", self.cards, home=HOME, client=SOCKET) or\
+            not power_method_set("dynpm", self.cards, home=HOME, client=SOCKET):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
@@ -212,12 +207,12 @@ def main():
     """
     cards = verifier()
     init_method, init_profile = power_status_get(client=SOCKET).split(",")
-    l_method, l_profile = last_power_status_get(client=SOCKET).split(",")
+    l_method, l_profile = last_power_status_get(HOME).split(",")
 
     # Check if is lost the last configuration
     if l_method != init_method and l_profile != init_profile:
-        power_profile_set(l_profile, cards, client=SOCKET)
-        power_method_set(l_method, cards, client=SOCKET)
+        power_profile_set(l_profile, cards, home=HOME, client=SOCKET)
+        power_method_set(l_method, cards, home=HOME, client=SOCKET)
 
     init_method, init_profile = power_status_get(client=SOCKET).split(",")
 

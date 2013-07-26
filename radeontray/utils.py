@@ -4,8 +4,8 @@
 from os import path, makedirs
 import sys
 
-PROFILE_PATH = path.expanduser("~/.config/Radeon-tray/last_power_profile")
-METHOD_PATH = path.expanduser("~/.config/Radeon-tray/last_power_method")
+PROFILE_PATH = "/.config/Radeon-tray/last_power_profile"
+METHOD_PATH = "/.config/Radeon-tray/last_power_method"
 
 def verifier(client=None):
     #First we verify how many cards we are dealing with, if any. Quit if none
@@ -84,25 +84,29 @@ def power_status_get(num=0, client=None):
             power_profile = f.readline().strip()
         return power_method+","+power_profile
 
-def last_power_status_get(client=None):
+def last_power_status_get(home):
     """Get the last power status
     """
-    if client is not None:
-        client.send("lastpowerstatus")
-        message = client.recv()
-        return message
-    else:
-        with open(METHOD_PATH, "r") as f:
+    #Try if ther's no file configuration
+    try:
+        with open(home + METHOD_PATH, "r") as f:
             power_method = f.readline().strip()
-        with open(PROFILE_PATH, "r") as f:
+        with open(home + PROFILE_PATH, "r") as f:
             power_profile = f.readline().strip()
-        return power_method+","+power_profile
+    except IOError:
+        makedirs(home + "/".join(METHOD_PATH.split("/")[:-1]))
+        with open(home + METHOD_PATH, "w") as f:
+            f.write("default")
+        with open(home + PROFILE_PATH, "w") as f:
+            f.write("dynpm")
+        return "default,dynpm"
+    return power_method+","+power_profile
 
-def power_profile_set(new_power_profile, cards, client=None):
+def power_profile_set(new_power_profile, cards, home=None, client=None):
     """Change the power profile
     """
     if client is not None:
-        client.send("setprofile:"+new_power_profile)
+        client.send("setprofile:"+new_power_profile+":"+home)
         message = client.recv()
         return bool(message)
     else:
@@ -110,18 +114,18 @@ def power_profile_set(new_power_profile, cards, client=None):
             for i in range(cards):
                 with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
                     f.write(new_power_profile)
-            with open(PROFILE_PATH, "w") as fs:
+            with open(home + PROFILE_PATH, "w") as fs:
                 fs.write(new_power_profile)
         except IOError:
             return False
         return True
 
 
-def power_method_set(new_power_method, cards, client=None):
+def power_method_set(new_power_method, cards, home=None, client=None):
     """Change the power method
     """
     if client is not None:
-        client.send("setmethod:"+new_power_method)
+        client.send("setmethod:"+new_power_method+":"+home)
         message = client.recv()
         return bool(message)
     else:
@@ -129,7 +133,7 @@ def power_method_set(new_power_method, cards, client=None):
             for i in range(cards):
                 with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
                     f.write(new_power_method)
-            with open(METHOD_PATH, "w") as fs:
+            with open(home + METHOD_PATH, "w") as fs:
                 fs.write(new_power_method)
         except IOError:
             return False

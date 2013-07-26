@@ -38,14 +38,19 @@ Where "X" is the python verion you wish to use.
 The installer creates a systemd service for the daemon that actually interacts
 with power management. The system tray icon will communicate with this daemon.
 
+To enable the server service at startup:
+
+```systemctl enable radeonpm.service```
+
 You need to manually add the tray icon program to the startup programs in your
 DE.
 
-```command: Radeon-tray.py client```
+```command: python /usr/bin/radeontrayclient.py client```
 
 You can also launch the command above after login.
 
 **Note**: installer refers and work only with *systemd*.
+**Note**: now the client program is available from start menu.
 
 ###Credits:
 You can read more about power profiles [here](http://www.x.org/wiki/RadeonFeat\
