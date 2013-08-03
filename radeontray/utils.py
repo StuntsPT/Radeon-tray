@@ -4,8 +4,8 @@
 from os import path, makedirs
 import sys
 
-PROFILE_PATH = "/.config/Radeon-tray/last_power_profile"
-METHOD_PATH = "/.config/Radeon-tray/last_power_method"
+PROFILE_PATH = ".config/Radeon-tray/last_power_profile"
+METHOD_PATH = ".config/Radeon-tray/last_power_method"
 
 def verifier(client=None):
     #First we verify how many cards we are dealing with, if any. Quit if none

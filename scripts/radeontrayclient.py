@@ -29,7 +29,7 @@ from radeontray.utils import last_power_status_get, \
     paths_verification
 
 
-HOME = path.expanduser("~")
+HOME = path.expanduser("~") + "/"
 PORT = "5556"
 CONTEXT = None
 SOCKET = None
