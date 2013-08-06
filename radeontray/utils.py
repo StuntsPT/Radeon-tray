@@ -7,6 +7,9 @@ import sys
 PROFILE_PATH = ".config/Radeon-tray/last_power_profile"
 METHOD_PATH = ".config/Radeon-tray/last_power_method"
 
+def icon_path():
+    return path.abspath(path.join(path.dirname(__file__), "assets"))
+
 def verifier(client=None):
     #First we verify how many cards we are dealing with, if any. Quit if none
     #are found.

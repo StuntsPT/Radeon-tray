@@ -26,7 +26,8 @@ from radeontray.utils import last_power_status_get, \
     power_status_get, \
     radeon_info_get, \
     verifier, \
-    paths_verification
+    paths_verification,\
+    icon_path
 
 
 HOME = path.expanduser("~") + "/"
@@ -34,7 +35,7 @@ PORT = "5556"
 CONTEXT = None
 SOCKET = None
 
-ICONPATH = "/usr/share/Radeon-tray-pixmaps"
+ICONPATH = icon_path()
 
 HIGHPATH = ICONPATH + "/radeon-tray-high.svg"
 MIDPATH = ICONPATH + "/radeon-tray-mid.svg"

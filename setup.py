@@ -7,7 +7,7 @@ import os
 import sys
 
 SCRIPTS = glob.glob("scripts/*")
-ASSETS = glob.glob('radeontray/assets/*')
+ASSETS = glob.glob('radeontray/assets/radeon-tray.svg')
 DATA_FILES = [('/usr/share/Radeon-tray-pixmaps', ASSETS)]
 
 # allow setup.py to be run from any path
