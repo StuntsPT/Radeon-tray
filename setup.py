@@ -29,7 +29,8 @@ setup(
     url='https://github.com/StuntsPT/Radeon-tray',
     license="GPLv3",
     keywords = "radeon tray icon",
-    install_requires=['pyzmq>=13.1.0'],
+    setup_requires=['pyzmq>=13.1.0'],
+    dependency_links = ['http://sourceforge.net/projects/pyqt/files/latest/download?source=files'],
     packages=['radeontray'],
     package_data={'radeontray': ['assets/*.svg', 'devel/*.py', 'systemd/*.service']
     },

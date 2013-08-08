@@ -29,7 +29,7 @@ from radeontray.utils import last_power_status_get, \
     paths_verification,\
     icon_path
 
-
+MAJVER = sys.version_info.major
 HOME = path.expanduser("~") + "/"
 PORT = "5556"
 CONTEXT = None
@@ -200,9 +200,12 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         if act_reas == 3:
             string = radeon_info_get(client=SOCKET)
-            self.showMessage("Radeon-INFO",
-                QtCore.QString.fromUtf8(string, len(string)), self.Information, 10000)
-
+            if MAJVER == 2:
+                self.showMessage("Radeon-INFO",
+                    QtCore.QString.fromUtf8(string, len(string)), self.Information, 10000)
+            elif MAJVER == 3:
+                self.showMessage("Radeon-INFO", string, self.Information, 10000)
+                
 def main():
     """Main function
     """

@@ -32,26 +32,26 @@ if __name__ == '__main__':
     SOCKET.bind("tcp://*:%s" % PORT)
 
     while True:
-        message = SOCKET.recv()
+        message = SOCKET.recv_string()
 
         if message == "info":
-            SOCKET.send(radeon_info_get())
+            SOCKET.send_string(radeon_info_get())
         elif message == "verifier":
-            SOCKET.send(str(verifier()))
+            SOCKET.send_string(str(verifier()))
         elif message == "powerstatus":
-            SOCKET.send(power_status_get())
+            SOCKET.send_string(power_status_get())
         elif message.find(":"):
             try:
                 command, arg, user_home = message.split(":")
             except ValueError:
-                SOCKET.send("Command not correct")
+                SOCKET.send_string("Command not correct")
             if command == "setprofile":
                 power_profile_set(arg, CARDS, home=user_home)
-                SOCKET.send("True")
+                SOCKET.send_string("True")
             elif command == "setmethod":
                 power_method_set(arg, CARDS, home=user_home)
-                SOCKET.send("True")
+                SOCKET.send_string("True")
             else:
-                SOCKET.send("Command not found")
+                SOCKET.send_string("Command not found")
         else:
-            SOCKET.send("Command not found")
+            SOCKET.send_string("Command not found")

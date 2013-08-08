@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from __future__ import unicode_literals, print_function
 from os import path, makedirs
 import sys
 
@@ -14,8 +14,8 @@ def verifier(client=None):
     #First we verify how many cards we are dealing with, if any. Quit if none
     #are found.
     if client is not None:
-        client.send("verifier")
-        message = client.recv()
+        client.send_string("verifier")
+        message = client.recv_string()
         return int(message)
     else:
         cards = 0
@@ -53,8 +53,8 @@ def radeon_info_get(client=None):
     """Get the power info
     """
     if client is not None:
-        client.send("info")
-        message = client.recv()
+        client.send_string("info")
+        message = client.recv_string()
         return message
     else:
         cards = verifier()
@@ -77,8 +77,8 @@ def power_status_get(num=0, client=None):
     """Get the power status. Uses with to close the file immediatelly
     """
     if client is not None:
-        client.send("powerstatus")
-        message = client.recv()
+        client.send_string("powerstatus")
+        message = client.recv_string()
         return message
     else:
         with open("/sys/class/drm/card"+str(num)+"/device/power_method","r") as f:
@@ -109,8 +109,8 @@ def power_profile_set(new_power_profile, cards, home=None, client=None):
     """Change the power profile
     """
     if client is not None:
-        client.send("setprofile:"+new_power_profile+":"+home)
-        message = client.recv()
+        client.send_string("setprofile:"+new_power_profile+":"+home)
+        message = client.recv_string()
         return bool(message)
     else:
         try:
@@ -128,8 +128,8 @@ def power_method_set(new_power_method, cards, home=None, client=None):
     """Change the power method
     """
     if client is not None:
-        client.send("setmethod:"+new_power_method+":"+home)
-        message = client.recv()
+        client.send_string("setmethod:"+new_power_method+":"+home)
+        message = client.recv_string()
         return bool(message)
     else:
         try:
