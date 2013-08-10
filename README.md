@@ -27,40 +27,25 @@ might be I will just add it here).
 * zmq
 
 ###Usage with installer:
-The installer and uninstaller scripts need **root privileges**.
+The installer and uninstaller scripts need root privileges.
 
 The installer uses setup.py, and using it is quite simple:
 
 ```pythonX setup.py install```
 
-Where "X" is the python verion you wish to use (it could be not necessary).
+Where "X" is the python verion you wish to use.
 
-####You can start the program with root privileges:
+The installer creates a systemd service for the daemon that actually interacts
+with power management. The system tray icon will communicate with this daemon.
 
-``` radeontray ```
+You need to manually add the tray icon program to the startup programs in your
+DE.
 
-**Note**: remember to check if the system recognize radeontray executable with ```which radeontray```
+```command: Radeon-tray.py client```
 
-####You can also install a server/client program with systemd support:
+You can also launch the command above after login.
 
-```radeontray install-server systemd```  
-```radeontray install-client```
-
-**Note**: uninstall with ```radeontray uninstall-server systemd``` and ```radeontray uninstall-client```
-
-####You can manage your user's configuration file with:
-
-```radeontray install-client-conf```  
-```radeontray uninstall-client-conf```
-
-**Note**: these commands **not require root privileges**
-
-####You need to manually add the tray icon program to the startup programs in your DE.
-
-``` command: /usr/bin/radeontray client ```
-
-**Note**: You can also launch the command above after login or simply ``` radeontray client & ```.
-
+**Note**: installer refers and work only with *systemd*.
 
 ###Credits:
 You can read more about power profiles [here](http://www.x.org/wiki/RadeonFeat\
