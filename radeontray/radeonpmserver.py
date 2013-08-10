@@ -1,8 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Server module
+
+
+Copyright 2012 Francisco Pina Martins <f.pinamartins@gmail.com>
+This file is part of Radeon-tray.
+Radeon-tray is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Radeon-tray is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
+"""
 import zmq
-import sys
-from radeontray.utils import power_method_set, \
+from utils import power_method_set, \
     power_profile_set, \
     power_status_get, \
     radeon_info_get, \
@@ -11,8 +28,12 @@ from radeontray.utils import power_method_set, \
 PORT = "5556"
 CARDS = verifier()
 
-if __name__ == '__main__':
 
+def server_main(port=False):
+    """Main function of the server
+    """
+    global PORT, CARDS
+    
     #Main function
     init_method, init_profile = power_status_get().split(",")
     #Default values
@@ -23,8 +44,8 @@ if __name__ == '__main__':
         power_profile_set(def_profile, CARDS)
         power_method_set(def_method, CARDS)
 
-    if len(sys.argv) > 1:
-        PORT = sys.argv[1]
+    if port:
+        PORT = port
     int(PORT)
 
     CONTEXT = zmq.Context()

@@ -3,5 +3,5 @@ Type=Application
 Encoding=UTF-8
 Name=Radeon-tray
 Comment=Client side of radeontray program
-Exec=/usr/bin/radeontrayclient.py client
-Icon=/usr/share/Radeon-tray-pixmaps/radeon-tray.svg
+Exec=/usr/bin/radeontray client
+Icon=/usr/share/Radeon-tray-icon/radeon-tray.svg

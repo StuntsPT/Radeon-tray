@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Utils for radeontray program
+"""
 from __future__ import unicode_literals, print_function
 from os import path, makedirs
 import sys
@@ -9,6 +11,12 @@ METHOD_PATH = ".config/Radeon-tray/last_power_method"
 
 def icon_path():
     return path.abspath(path.join(path.dirname(__file__), "assets"))
+
+def systemd_path():
+    return path.abspath(path.join(path.dirname(__file__), "systemd"))
+
+def conf_path():
+    return path.abspath(path.join(path.dirname(__file__), "conf"))
 
 def verifier(client=None):
     #First we verify how many cards we are dealing with, if any. Quit if none
@@ -142,20 +150,18 @@ def power_method_set(new_power_method, cards, home=None, client=None):
             return False
         return True
 
-def paths_verification():
-    config_location = path.dirname(PROFILE_PATH)
+def paths_verification(home):
+    config_location = path.dirname(home + PROFILE_PATH)
     if path.isdir(config_location) == False:
         makedirs(config_location)
-        with open(METHOD_PATH, "w") as f:
-            f.write("profile")
-        with open(PROFILE_PATH, "w") as f:
+        with open(home + METHOD_PATH, "w") as f:
             f.write("default")
+        with open(home + PROFILE_PATH, "w") as f:
+            f.write("dynpm")
         print("Warning: configuration path not found for this user. Created a new one here:%s\n" % (config_location))
-    elif path.isfile(PROFILE_PATH) == False or path.isfile(METHOD_PATH) == False:
-        with open(METHOD_PATH, "w") as f:
-            f.write("profile")
-        with open(PROFILE_PATH, "w") as f:
+    elif path.isfile(home + PROFILE_PATH) == False or path.isfile(home + METHOD_PATH) == False:
+        with open(home + METHOD_PATH, "w") as f:
             f.write("default")
+        with open(home + PROFILE_PATH, "w") as f:
+            f.write("dynpm")
         print("Warning: configuration files not found for this user (but path exists). Created a new ones here:%s\n" % (config_location))
-
-paths_verification()

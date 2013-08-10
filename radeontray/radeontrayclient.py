@@ -1,26 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Client module
 
-# Copyright 2012 Francisco Pina Martins <f.pinamartins@gmail.com>
-# This file is part of Radeon-tray.
-# Radeon-tray is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+Copyright 2012 Francisco Pina Martins <f.pinamartins@gmail.com>
+This file is part of Radeon-tray.
+Radeon-tray is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# Radeon-tray is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+Radeon-tray is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-# You should have received a copy of the GNU General Public License
-# along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import sys
 import zmq
 from os import path
 from PyQt4 import QtGui, QtCore
-from radeontray.utils import last_power_status_get, \
+from utils import last_power_status_get, \
     power_method_set, \
     power_profile_set, \
     power_status_get, \
@@ -237,10 +239,12 @@ def main():
     tray_icon.show()
     sys.exit(app.exec_())
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        if sys.argv[1] == "client":
-            CONTEXT = zmq.Context()
-            SOCKET = CONTEXT.socket(zmq.REQ)
-            SOCKET.connect("tcp://localhost:%s" % PORT)
+def client_main(client=False):
+    """Client main
+    """
+    global SOCKET
+    if client:
+        CONTEXT = zmq.Context()
+        SOCKET = CONTEXT.socket(zmq.REQ)
+        SOCKET.connect("tcp://localhost:%s" % PORT)
     main()

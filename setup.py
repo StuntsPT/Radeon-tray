@@ -1,20 +1,12 @@
 #!/usr/bin/env python
-
+"""Installer for radeontray program
+"""
 from setuptools import setup
-import glob
 import radeontray
 import os
-import sys
-
-SCRIPTS = glob.glob("scripts/*")
-ASSETS = glob.glob('radeontray/assets/radeon-tray.svg')
-DATA_FILES = [('/usr/share/Radeon-tray-pixmaps', ASSETS)]
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
- 
-DATA_FILES.append(('/lib/systemd/system', ['radeontray/systemd/radeonpm.service']))
-DATA_FILES.append(('/usr/share/applications', ['radeontray/conf/radeontrayclient.desktop']))
 
 setup(
     name='Radeon-tray',
@@ -33,10 +25,17 @@ setup(
     setup_requires=['pyzmq>=13.1.0'],
     dependency_links = ['http://sourceforge.net/projects/pyqt/files/latest/download?source=files'],
     packages=['radeontray'],
-    package_data={'radeontray': ['assets/*.svg', 'devel/*.py', 'systemd/*.service']
+    package_data={'radeontray':
+        ['assets/*.svg', 'devel/*.py', 'systemd/*.service', 'conf/*.desktop']
     },
-    scripts=SCRIPTS,
-    data_files=DATA_FILES,
+    #scripts=SCRIPTS,
+    #data_files=DATA_FILES,
+    entry_points={
+        'console_scripts': [
+            'radeontray = radeontray:client',
+            'radeontrayserver = radeontray:server'
+        ]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",
