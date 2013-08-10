@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Client module
 
-Copyright 2012 Francisco Pina Martins <f.pinamartins@gmail.com>
+Copyright 2012-2013 Francisco Pina Martins <f.pinamartins@gmail.com>
 This file is part of Radeon-tray.
 Radeon-tray is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
