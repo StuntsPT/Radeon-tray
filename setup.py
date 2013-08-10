@@ -2,6 +2,7 @@
 """Installer for radeontray program
 
 Copyright 2012-2013 Francisco Pina Martins <f.pinamartins@gmail.com>
+and Mirco Tracolli.
 This file is part of Radeon-tray.
 Radeon-tray is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

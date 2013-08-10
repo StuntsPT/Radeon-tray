@@ -3,6 +3,7 @@
 """Client module
 
 Copyright 2012-2013 Francisco Pina Martins <f.pinamartins@gmail.com>
+and Mirco Tracolli.
 This file is part of Radeon-tray.
 Radeon-tray is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -207,7 +208,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
                     QtCore.QString.fromUtf8(string, len(string)), self.Information, 10000)
             elif MAJVER == 3:
                 self.showMessage("Radeon-INFO", string, self.Information, 10000)
-                
+
 def main():
     """Main function
     """
