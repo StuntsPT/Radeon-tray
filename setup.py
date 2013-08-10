@@ -18,6 +18,7 @@ DATA_FILES.append(('/usr/share/applications', ['radeontray/conf/radeontrayclient
 
 setup(
     name='Radeon-tray',
+    zip_safe=False,
     #Include data from MANIFEST.in
     #include_package_data = True,
     version=radeontray.__version__,
