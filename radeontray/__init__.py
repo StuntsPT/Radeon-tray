@@ -23,13 +23,15 @@ def client():
     elif sys.argv[1] == "client":
         paths_verification(path.expanduser("~") + "/")
         client_main(client=True)
-    elif sys.argv[1] == "install-server":
+    elif sys.argv[1] == "install-server" and\
+            sys.argv[2] == "systemd":
         copy_file = "cp %s/radeonpm.service /lib/systemd/system" % SYSDPATH
         subprocess.call(copy_file, shell=True)
         subprocess.call("systemctl daemon-reload", shell=True)
         subprocess.call("systemctl start radeonpm.service", shell=True)
         subprocess.call("systemctl enable radeonpm.service", shell=True)
-    elif sys.argv[1] == "uninstall-server":
+    elif sys.argv[1] == "uninstall-server"and\
+            sys.argv[2] == "systemd":
         subprocess.call("systemctl stop radeonpm.service", shell=True)
         subprocess.call("systemctl disable radeonpm.service", shell=True)
         subprocess.call("rm /lib/systemd/system/radeonpm.service", shell=True)
