@@ -38,7 +38,7 @@ setup(
     url='https://github.com/StuntsPT/Radeon-tray',
     license="GPLv3",
     keywords = "radeon tray icon",
-    setup_requires=['pyzmq>=13.1.0'],
+    setup_requires=['pyzmq'],
     dependency_links = ['http://sourceforge.net/projects/pyqt/files/latest/download?source=files'],
     packages=['radeontray'],
     package_data={'radeontray':
@@ -48,8 +48,8 @@ setup(
     #data_files=DATA_FILES,
     entry_points={
         'console_scripts': [
-            'radeontray = radeontray:client',
-            'radeontrayserver = radeontray:server'
+            'radeontray = radeontray.mainfunctions:client',
+            'radeontrayserver = radeontray.mainfunctions:server'
         ]
     },
     classifiers=[

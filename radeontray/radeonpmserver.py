@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
 """
 import zmq
-from utils import power_method_set, \
+from .utils import power_method_set, \
     power_profile_set, \
     power_status_get, \
     radeon_info_get, \
