@@ -2,6 +2,7 @@
 """
 from __future__ import unicode_literals, print_function
 from os import path
+from getpass import getuser
 from .radeonpmserver import server_main
 from .radeontrayclient import client_main
 from .utils import systemd_path, conf_path, icon_path, paths_verification
@@ -22,6 +23,9 @@ def client():
         client_main(client=True)
     elif sys.argv[1] == "install-server" and\
             sys.argv[2] == "systemd":
+        if getuser() != "root":
+            print("You need root privileges for installation")
+            return
         copy_file = "cp %s/radeonpm.service /lib/systemd/system" % SYSDPATH
         subprocess.call(copy_file, shell=True)
         subprocess.call("systemctl daemon-reload", shell=True)
@@ -29,17 +33,26 @@ def client():
         subprocess.call("systemctl enable radeonpm.service", shell=True)
     elif sys.argv[1] == "uninstall-server"and\
             sys.argv[2] == "systemd":
+        if getuser() != "root":
+            print("You need root privileges to uninstall the application")
+            return
         subprocess.call("systemctl stop radeonpm.service", shell=True)
         subprocess.call("systemctl disable radeonpm.service", shell=True)
         subprocess.call("rm /lib/systemd/system/radeonpm.service", shell=True)
         subprocess.call("systemctl daemon-reload", shell=True)
     elif sys.argv[1] == "install-client":
+        if getuser() != "root":
+            print("You need root privileges for installation")
+            return
         copy_file = "cp %s/radeontrayclient.desktop /usr/share/applications" % CONFPATH
         subprocess.call(copy_file, shell=True)
         subprocess.call("mkdir /usr/share/Radeon-tray-icon", shell=True)
         copy_file = "cp %s/radeon-tray.svg /usr/share/Radeon-tray-icon" % ICONPATH
         subprocess.call(copy_file, shell=True)
     elif sys.argv[1] == "uninstall-client":
+        if getuser() != "root":
+            print("You need root privileges to uninstall the application")
+            return
         subprocess.call("rm -R /usr/share/Radeon-tray-icon", shell=True)
         subprocess.call("rm /usr/share/applications/radeontrayclient.desktop", shell=True)
     elif sys.argv[1] == "install-client-conf":
@@ -51,4 +64,7 @@ def client():
 def server():
     """Function to start the server
     """
+    if getuser() != "root":
+        print("You need root privileges to start the server")
+        return
     server_main()

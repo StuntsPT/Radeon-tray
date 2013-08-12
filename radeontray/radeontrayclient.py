@@ -83,8 +83,6 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         exit_action = menu.addAction("Exit")
         exit_action.triggered.connect(QtGui.qApp.quit)
 
-        self.check_status()
-
         self.setContextMenu(menu)
 
         # Connect object to activated signal to grab single click
@@ -93,6 +91,8 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             self,
             QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"),
             self.show_status)
+        
+        self.check_status()
 
     def activate_high(self):
         """Activate high profile
