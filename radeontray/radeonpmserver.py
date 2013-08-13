@@ -38,7 +38,7 @@ def server_main(port=False):
     #Main function
     init_method, init_profile = power_status_get().split(",")
     #Default values
-    def_method, def_profile = ["default", "dynpm"]
+    def_method, def_profile = ["dynpm", "default"]
 
     # Apply the last configuration if it differs from default
     if def_method != init_method or def_profile != init_profile:

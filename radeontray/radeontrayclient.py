@@ -215,9 +215,9 @@ def main():
     cards = verifier()
     init_method, init_profile = power_status_get(client=SOCKET).split(",")
     l_method, l_profile = last_power_status_get(HOME).split(",")
-
+    
     # Check if is lost the last configuration
-    if l_method != init_method and l_profile != init_profile:
+    if l_method != init_method or l_profile != init_profile:
         power_profile_set(l_profile, cards, home=HOME, client=SOCKET)
         power_method_set(l_method, cards, home=HOME, client=SOCKET)
 

@@ -19,43 +19,63 @@ along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
 """
 from setuptools import setup
 import radeontray
-import os
+import os, sys
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-setup(
-    name='Radeon-tray',
-    zip_safe=False,
-    #Include data from MANIFEST.in
-    #include_package_data = True,
-    version=radeontray.__version__,
-    author="Pina Martins",
-    author_email='f.pinamartins@gmail.com',
-    # To add
-    #long_description=read('README'),
-    description='A small program to control the power profiles of your Radeon card via systray icon.',
-    url='https://github.com/StuntsPT/Radeon-tray',
-    license="GPLv3",
-    keywords = "radeon tray icon",
-    setup_requires=['pyzmq'],
-    dependency_links = ['http://sourceforge.net/projects/pyqt/files/latest/download?source=files'],
-    packages=['radeontray'],
-    package_data={'radeontray':
-        ['assets/*.svg', 'devel/*.py', 'systemd/*.service', 'conf/*.desktop']
-    },
-    #scripts=SCRIPTS,
-    #data_files=DATA_FILES,
-    entry_points={
-        'console_scripts': [
-            'radeontray = radeontray.mainfunctions:client',
-            'radeontrayserver = radeontray.mainfunctions:server'
+def main():
+    r_pyqt = False
+    r_zmq = False
+    try:
+        import PyQt4
+        r_pyqt = True
+    except ImportError:
+        print("This program require PyQt4")
+    try:
+        import zmq
+        r_zmq = True
+    except ImportError:
+        print("This program require pyzmq version >= 13.0.0")
+    
+    if not r_pyqt or not r_zmq:
+        sys.exit(1)
+    
+    setup(
+        name='Radeon-tray',
+        zip_safe=False,
+        #Include data from MANIFEST.in
+        #include_package_data = True,
+        version=radeontray.__version__,
+        author="Pina Martins",
+        author_email='f.pinamartins@gmail.com',
+        # To add
+        #long_description=read('README'),
+        description='A small program to control the power profiles of your Radeon card via systray icon.',
+        url='https://github.com/StuntsPT/Radeon-tray',
+        license="GPLv3",
+        keywords = "radeon tray icon",
+        #setup_requires=['pyzmq>=13.0.0', 'PyQt4'],
+        dependency_links = ['http://sourceforge.net/projects/pyqt/files/latest/download?source=files'],
+        packages=['radeontray'],
+        package_data={'radeontray':
+            ['assets/*.svg', 'devel/*.py', 'systemd/*.service', 'conf/*.desktop']
+        },
+        #scripts=SCRIPTS,
+        #data_files=DATA_FILES,
+        entry_points={
+            'console_scripts': [
+                'radeontray = radeontray.mainfunctions:client',
+                'radeontrayserver = radeontray.mainfunctions:server'
+            ]
+        },
+        classifiers=[
+            "Development Status :: 4 - Beta",
+            "Topic :: Utilities",
+            "Topic :: System :: Monitoring",
+            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
         ]
-    },
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Topic :: Utilities",
-        "Topic :: System :: Monitoring",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
-    ]
-)
+    )
+
+if __name__ == '__main__':
+    sys.exit(main())
