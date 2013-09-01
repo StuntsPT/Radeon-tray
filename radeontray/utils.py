@@ -137,14 +137,15 @@ def power_profile_set(new_power_profile, cards, home=None, client=None):
         message = client.recv_string()
         return bool(message)
     else:
-        try:
-            for i in range(cards):
-                with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
-                    f.write(new_power_profile)
-            with open(home + PROFILE_PATH, "w") as fs:
-                fs.write(new_power_profile)
-        except IOError:
-            return False
+        if home is not None:
+            try:
+                for i in range(cards):
+                    with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
+                        f.write(new_power_profile)
+                with open(home + PROFILE_PATH, "w") as fs:
+                    fs.write(new_power_profile)
+            except IOError:
+                return False
         return True
 
 
@@ -156,14 +157,15 @@ def power_method_set(new_power_method, cards, home=None, client=None):
         message = client.recv_string()
         return bool(message)
     else:
-        try:
-            for i in range(cards):
-                with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
-                    f.write(new_power_method)
-            with open(home + METHOD_PATH, "w") as fs:
-                fs.write(new_power_method)
-        except IOError:
-            return False
+        if home is not None:
+            try:
+                for i in range(cards):
+                    with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
+                        f.write(new_power_method)
+                with open(home + METHOD_PATH, "w") as fs:
+                    fs.write(new_power_method)
+            except IOError:
+                return False
         return True
 
 def paths_verification(home):
