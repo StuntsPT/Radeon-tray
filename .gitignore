@@ -1,1 +1,4 @@
 *.pyc
+Radeon_tray.egg-info
+build
+dist

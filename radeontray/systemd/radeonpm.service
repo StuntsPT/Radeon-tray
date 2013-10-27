@@ -1,10 +1,10 @@
 [Unit]
-Description=Start radeonpm server program
+Description=radeontray server component
 After=syslog.target network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/sbin/radeonpmserver
+ExecStart=/usr/bin/radeontrayserver
 
 [Install]
 WantedBy=multi-user.target
