@@ -31,12 +31,12 @@ def main():
         import PyQt4
         r_pyqt = True
     except ImportError:
-        print("This program require PyQt4")
+        print("This program requires PyQt4")
     try:
         import zmq
         r_zmq = True
     except ImportError:
-        print("This program require pyzmq version >= 13.0.0")
+        print("This program requires pyzmq version >= 13.0.0")
     
     if not r_pyqt or not r_zmq:
         sys.exit(1)
