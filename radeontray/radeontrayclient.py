@@ -106,7 +106,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
-        self.setIcon(QtGui.QIcon(MIDPATH))
+        self.setIcon(QtGui.QIcon(BALPATH))
         self.battery_action.setEnabled(True)
         self.balanced_action.setEnabled(False)
         self.performance_action.setEnabled(True)
@@ -119,7 +119,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
             self.showMessage("Error",
                 NOPERM, self.Critical, 10000)
             return
-        self.setIcon(QtGui.QIcon(LOWPATH))
+        self.setIcon(QtGui.QIcon(BATPATH))
         self.battery_action.setEnabled(False)
         self.balanced_action.setEnabled(True)
         self.performance_action.setEnabled(True)
