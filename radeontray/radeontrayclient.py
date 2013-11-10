@@ -60,14 +60,14 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
         menu = QtGui.QMenu(parent)
 
-        self.high_action = menu.addAction(QtGui.QIcon(PERFPATH), "Performance state")
-        self.high_action.triggered.connect(self.activate_performance)
+        self.performance_action = menu.addAction(QtGui.QIcon(PERFPATH), "Performance state")
+        self.performance_action.triggered.connect(self.activate_performance)
 
-        self.mid_action = menu.addAction(QtGui.QIcon(BALPATH), "Balanced state")
-        self.mid_action.triggered.connect(self.activate_balanced)
+        self.balanced_action = menu.addAction(QtGui.QIcon(BALPATH), "Balanced state")
+        self.balanced_action.triggered.connect(self.activate_balanced)
 
-        self.low_action = menu.addAction(QtGui.QIcon(BATPATH), "Battery state")
-        self.low_action.triggered.connect(self.activate_battery)
+        self.battery_action = menu.addAction(QtGui.QIcon(BATPATH), "Battery state")
+        self.battery_action.triggered.connect(self.activate_battery)
 
         menu.addSeparator()
 
