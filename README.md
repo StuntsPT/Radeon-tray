@@ -43,17 +43,17 @@ Where "X" is the python verion you wish to use (it could be not necessary).
 
 ####You can also install a server/client program with systemd support:
 
-```radeontray install-server systemd```  
+```radeontray install-server systemd```
 ```radeontray install-client```
 
 **Note**: uninstall with ```radeontray uninstall-server systemd``` and ```radeontray uninstall-client```
 
 ####You can manage your user's configuration file with:
 
-```radeontray install-client-conf```  
+```radeontray install-client-conf```
 ```radeontray uninstall-client-conf```
 
-**Note**: these commands **not require root privileges**
+**Note**: these commands **do not require root privileges**
 
 ####You need to manually add the tray icon program to the startup programs in your DE.
 
@@ -61,6 +61,10 @@ Where "X" is the python verion you wish to use (it could be not necessary).
 
 **Note**: You can also launch the command above after login or simply ``` radeontray client & ```.
 
+###Using the program:
+After being launched, the program will place an icon in you systary. Left click\
+ the icon to read some info about your card(s). right click the icon to change \
+the power state. The icon will change according to the choosen power state.
 
 ###Credits:
 You can read more about power profiles [here](http://www.x.org/wiki/RadeonFeat\
@@ -72,7 +76,7 @@ tsPT/shell-extension-radeon-power-profile-manager). But this one will work on
 non Gnome environments.
 
 The icons were created by Todd-partridge (https://github.com/Gen2ly) and
-somewhat modified by myself.
+heavily modified by myself.
 
 ###License:
 This software is licensed under the GPLv3.
