@@ -10,9 +10,9 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg7384"
-   sodipodi:docname="low.svg"
+   sodipodi:docname="radeon-tray-batery.svg"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    height="24"
    width="24">
   <metadata
@@ -28,14 +28,14 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:cy="12"
+     inkscape:cy="14.537054"
      pagecolor="#555753"
      borderopacity="1"
      showborder="false"
      inkscape:bbox-paths="false"
      guidetolerance="10"
      inkscape:object-paths="true"
-     inkscape:window-width="1440"
+     inkscape:window-width="1438"
      showguides="true"
      inkscape:object-nodes="true"
      inkscape:snap-bbox="true"
@@ -49,14 +49,14 @@
      inkscape:window-maximized="1"
      inkscape:window-x="0"
      inkscape:snap-global="true"
-     inkscape:window-y="27"
+     inkscape:window-y="36"
      gridtolerance="10"
-     inkscape:window-height="841"
+     inkscape:window-height="837"
      inkscape:snap-to-guides="true"
      inkscape:current-layer="layer10"
      inkscape:snap-bbox-midpoints="false"
-     inkscape:zoom="34.583333"
-     inkscape:cx="6.766265"
+     inkscape:zoom="17.291667"
+     inkscape:cx="3.259731"
      inkscape:snap-grids="true"
      inkscape:pageopacity="1">
     <inkscape:grid
@@ -96,17 +96,55 @@
        id="rect5837"
        style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#bebebe;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        sodipodi:nodetypes="ssssssssssscsssssssscsc" />
-    <text
-       xml:space="preserve"
-       style="font-size:9.01824093px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#e6e6e6;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
-       x="288.19138"
-       y="455.74005"
-       id="text2994"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan2996"
-         x="288.19138"
-         y="455.74005">L</tspan></text>
+    <g
+       id="g3776">
+      <rect
+         y="449.10083"
+         x="290.33243"
+         height="6.9260316"
+         width="3.6585619"
+         id="rect3004"
+         style="fill:none;stroke:#e6e6e6;stroke-width:0.98481166;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         y="448.50131"
+         x="291.64108"
+         height="0.54939759"
+         width="0.9542169"
+         id="rect3774"
+         style="fill:none;stroke:#e6e6e6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <rect
+       style="fill:none;stroke:#e6e6e6;stroke-width:0.97871065;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3780"
+       width="1.5538195"
+       height="0.22369902"
+       x="291.39899"
+       y="450.42795"
+       ry="0" />
+    <rect
+       ry="0"
+       y="451.8204"
+       x="291.39899"
+       height="0.22369902"
+       width="1.5538195"
+       id="rect3784"
+       style="fill:none;stroke:#e6e6e6;stroke-width:0.97871065;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:none;stroke:#e6e6e6;stroke-width:0.97871065;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3786"
+       width="1.5538195"
+       height="0.22369902"
+       x="291.39899"
+       y="453.18015"
+       ry="0" />
+    <rect
+       ry="0"
+       y="454.54367"
+       x="291.39899"
+       height="0.22369902"
+       width="1.5538195"
+       id="rect3788"
+       style="fill:none;stroke:#e6e6e6;stroke-width:0.97871065;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
   <g
      inkscape:label="apps"

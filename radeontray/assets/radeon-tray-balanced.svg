@@ -10,7 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg7384"
-   sodipodi:docname="auto.svg"
+   sodipodi:docname="radeon-tray-balanced.svg"
    version="1.1"
    inkscape:version="0.48.4 r9939"
    height="24"
@@ -35,7 +35,7 @@
      inkscape:bbox-paths="false"
      guidetolerance="10"
      inkscape:object-paths="true"
-     inkscape:window-width="1440"
+     inkscape:window-width="1438"
      showguides="true"
      inkscape:object-nodes="true"
      inkscape:snap-bbox="true"
@@ -51,12 +51,12 @@
      inkscape:snap-global="true"
      inkscape:window-y="36"
      gridtolerance="10"
-     inkscape:window-height="841"
+     inkscape:window-height="837"
      inkscape:snap-to-guides="true"
      inkscape:current-layer="layer10"
      inkscape:snap-bbox-midpoints="false"
      inkscape:zoom="34.583333"
-     inkscape:cx="6.766265"
+     inkscape:cx="6.0650603"
      inkscape:snap-grids="true"
      inkscape:pageopacity="1">
     <inkscape:grid
@@ -96,17 +96,61 @@
        id="rect5837"
        style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#bebebe;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        sodipodi:nodetypes="ssssssssssscsssssssscsc" />
-    <text
-       xml:space="preserve"
-       style="font-size:9.01824093px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#e6e6e6;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Semi-Condensed"
-       x="288.19138"
-       y="455.74005"
-       id="text2994"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan2996"
-         x="288.19138"
-         y="455.74005">A</tspan></text>
+    <g
+       id="g3030"
+       transform="translate(0.34698792,0)"
+       style="fill:none;fill-opacity:1;stroke:#e6e6e6;stroke-opacity:1">
+      <g
+         id="g3015"
+         style="fill:none;fill-opacity:1;stroke:#e6e6e6;stroke-opacity:1">
+        <g
+           id="g3005"
+           style="fill:none;fill-opacity:1;stroke:#e6e6e6;stroke-opacity:1">
+          <g
+             transform="translate(-0.7277096,0)"
+             id="g2999"
+             style="fill:none;fill-opacity:1;stroke:#e6e6e6;stroke-opacity:1">
+            <path
+               style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+               d="m 10.46747,15.961446 2.833735,0"
+               id="path2995"
+               inkscape:connector-curvature="0"
+               transform="translate(281,440)" />
+            <path
+               style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+               d="m 11.884337,16.077108 0,-6.5060238"
+               id="path2997"
+               inkscape:connector-curvature="0"
+               transform="translate(281,440)" />
+          </g>
+          <path
+             inkscape:connector-curvature="0"
+             id="path3003"
+             d="m 289.90601,449.77349 4.39518,0"
+             style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+        </g>
+        <path
+           style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+           d="m 290.33976,449.54213 -1.44578,3.03614"
+           id="path3011"
+           inkscape:connector-curvature="0" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path3013"
+           d="m 293.84834,449.48429 1.44578,3.03614"
+           style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+      </g>
+      <path
+         inkscape:connector-curvature="0"
+         id="path3026"
+         d="m 287.62166,452.75181 2.89156,0"
+         style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+      <path
+         style="fill:none;stroke:#e6e6e6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+         d="m 293.76626,452.75181 2.89156,0"
+         id="path3028"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
   <g
      inkscape:label="apps"
