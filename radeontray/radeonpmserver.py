@@ -21,7 +21,7 @@ along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
 """
 import zmq
 from .utils import power_method_set, \
-    power_profile_set, \
+    power_state_set, \
     power_status_get, \
     radeon_info_get, \
     verifier
@@ -36,13 +36,13 @@ def server_main(port=False):
     global PORT, CARDS
 
     #Main function
-    init_method, init_profile = power_status_get().split(",")
+    init_method, init_state = power_status_get().split(",")
     #Default values
-    def_method, def_profile = ["dynpm", "default"]
+    def_method, def_state = ["dynpm", "default"]
 
     # Apply the last configuration if it differs from default
-    if def_method != init_method or def_profile != init_profile:
-        power_profile_set(def_profile, CARDS)
+    if def_method != init_method or def_state != init_state:
+        power_state_set(def_state, CARDS)
         power_method_set(def_method, CARDS)
 
     if port:
@@ -67,8 +67,8 @@ def server_main(port=False):
                 command, arg, user_home = message.split(":")
             except ValueError:
                 SOCKET.send_string("Command not correct")
-            if command == "setprofile":
-                power_profile_set(arg, CARDS, home=user_home)
+            if command == "setstate":
+                power_state_set(arg, CARDS, home=user_home)
                 SOCKET.send_string("True")
             elif command == "setmethod":
                 power_method_set(arg, CARDS, home=user_home)

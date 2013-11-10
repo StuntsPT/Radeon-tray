@@ -85,8 +85,8 @@ def radeon_info_get(client=None):
         radeon_info = ""
         for xc in range(cards):
             radeon_info += "----- Card%d -----\n" % xc
-            method, profile = power_status_get(xc).split(",")
-            radeon_info += "Power method: %s\nPower profile: %s\n" % (method, profile)
+            method, state = power_status_get(xc).split(",")
+            radeon_info += "Power method: %s\nPower state: %s\n" % (method, state)
             radeon_info += temp_checker(temp_location()) + "\n"
             try:
                 with open("/sys/kernel/debug/dri/"+str(xc)+"/radeon_pm_info","r") as ff:
@@ -109,7 +109,7 @@ def power_status_get(num=0, client=None):
             power_method = f.readline().strip()
         with open("/sys/class/drm/card"+str(num)+"/device/power_dpm_state","r") as f:
             power_state = f.readline().strip()
-        return power_method + "," + power_profile
+        return power_method + "," + power_state
 
 def last_power_status_get(home):
     """Get the last power status
@@ -127,10 +127,10 @@ def last_power_status_get(home):
         with open(home + STATE_PATH, "w") as f:
             f.write("balanced")
         return "dpm,balanced"
-    return power_method+","+power_profile
+    return power_method+","+power_state
 
 def power_state_set(new_power_state, cards, home=None, client=None):
-    """Change the power profile
+    """Change the power state
     """
     if client is not None:
         client.send_string("setstate:" + new_power_state + ":" + home)
