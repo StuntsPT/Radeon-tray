@@ -22,7 +22,7 @@ from __future__ import unicode_literals, print_function
 from os import path, makedirs
 import sys
 
-PROFILE_PATH = ".config/Radeon-tray/last_power_profile"
+STATE_PATH = ".config/Radeon-tray/last_power_state"
 METHOD_PATH = ".config/Radeon-tray/last_power_method"
 
 def icon_path():
@@ -107,9 +107,9 @@ def power_status_get(num=0, client=None):
     else:
         with open("/sys/class/drm/card"+str(num)+"/device/power_method","r") as f:
             power_method = f.readline().strip()
-        with open("/sys/class/drm/card"+str(num)+"/device/power_profile","r") as f:
-            power_profile = f.readline().strip()
-        return power_method+","+power_profile
+        with open("/sys/class/drm/card"+str(num)+"/device/power_dpm_state","r") as f:
+            power_state = f.readline().strip()
+        return power_method + "," + power_profile
 
 def last_power_status_get(home):
     """Get the last power status
@@ -118,32 +118,32 @@ def last_power_status_get(home):
     try:
         with open(home + METHOD_PATH, "r") as f:
             power_method = f.readline().strip()
-        with open(home + PROFILE_PATH, "r") as f:
-            power_profile = f.readline().strip()
+        with open(home + STATE_PATH, "r") as f:
+            power_state = f.readline().strip()
     except IOError:
         makedirs(home + "/".join(METHOD_PATH.split("/")[:-1]))
         with open(home + METHOD_PATH, "w") as f:
-            f.write("default")
-        with open(home + PROFILE_PATH, "w") as f:
-            f.write("dynpm")
-        return "default,dynpm"
+            f.write("dpm")
+        with open(home + STATE_PATH, "w") as f:
+            f.write("balanced")
+        return "dpm,balanced"
     return power_method+","+power_profile
 
-def power_profile_set(new_power_profile, cards, home=None, client=None):
+def power_state_set(new_power_state, cards, home=None, client=None):
     """Change the power profile
     """
     if client is not None:
-        client.send_string("setprofile:"+new_power_profile+":"+home)
+        client.send_string("setstate:" + new_power_state + ":" + home)
         message = client.recv_string()
         return bool(message)
     else:
         if home is not None:
             try:
                 for i in range(cards):
-                    with open("/sys/class/drm/card"+str(i)+"/device/power_profile","w") as f:
-                        f.write(new_power_profile)
-                with open(home + PROFILE_PATH, "w") as fs:
-                    fs.write(new_power_profile)
+                    with open("/sys/class/drm/card"+str(i)+"/device/power_dpm_state","w") as f:
+                        f.write(new_power_state)
+                with open(home + STATE_PATH, "w") as fs:
+                    fs.write(new_power_state)
             except IOError:
                 return False
         return True
@@ -153,14 +153,14 @@ def power_method_set(new_power_method, cards, home=None, client=None):
     """Change the power method
     """
     if client is not None:
-        client.send_string("setmethod:"+new_power_method+":"+home)
+        client.send_string("setmethod:" + new_power_method + ":" + home)
         message = client.recv_string()
         return bool(message)
     else:
         if home is not None:
             try:
                 for i in range(cards):
-                    with open("/sys/class/drm/card"+str(i)+"/device/power_method","w") as f:
+                    with open("/sys/class/drm/card" + str(i) + "/device/power_method","w") as f:
                         f.write(new_power_method)
                 with open(home + METHOD_PATH, "w") as fs:
                     fs.write(new_power_method)
@@ -169,17 +169,17 @@ def power_method_set(new_power_method, cards, home=None, client=None):
         return True
 
 def paths_verification(home):
-    config_location = path.dirname(home + PROFILE_PATH)
+    config_location = path.dirname(home + STATE_PATH)
     if path.isdir(config_location) == False:
         makedirs(config_location)
         with open(home + METHOD_PATH, "w") as f:
-            f.write("default")
-        with open(home + PROFILE_PATH, "w") as f:
-            f.write("dynpm")
+            f.write("dpm")
+        with open(home + STATE_PATH, "w") as f:
+            f.write("balanced")
         print("Warning: configuration path not found for this user. Created a new one here:%s\n" % (config_location))
-    elif path.isfile(home + PROFILE_PATH) == False or path.isfile(home + METHOD_PATH) == False:
+    elif path.isfile(home + STATE_PATH) == False or path.isfile(home + METHOD_PATH) == False:
         with open(home + METHOD_PATH, "w") as f:
-            f.write("default")
-        with open(home + PROFILE_PATH, "w") as f:
-            f.write("dynpm")
+            f.write("dpm")
+        with open(home + STATE_PATH, "w") as f:
+            f.write("balanced")
         print("Warning: configuration files not found for this user (but path exists). Created a new ones here:%s\n" % (config_location))
