@@ -90,7 +90,14 @@ def radeon_info_get(client=None):
             radeon_info += temp_checker(temp_location()) + "\n"
             try:
                 with open("/sys/kernel/debug/dri/"+str(xc)+"/radeon_pm_info","r") as ff:
-                    radeon_info += ff.read().strip()
+                    line = ff.read().strip()
+                    if line.startswith("power"):
+                        line = line.split()
+                        line[4] = str(int(line[4])/100) + " MHz"
+                        line[6] = str(int(line[6])/100) + " MHz"
+                        line[8] = line[8] + " mV"
+
+                    radeon_info += line
             except IOError:
                 radeon_info += "\nYou need root privileges\nfor more information"
             radeon_info += "\n---------------"
