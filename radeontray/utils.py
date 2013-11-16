@@ -96,7 +96,7 @@ def radeon_info_get(client=None):
                         line[4] = str(int(line[4])/100) + " MHz"
                         line[6] = str(int(line[6])/100) + " MHz"
                         line[8] = line[8] + " mV"
-
+                        line = " ".join(line)
                     radeon_info += line
             except IOError:
                 radeon_info += "\nYou need root privileges\nfor more information"
