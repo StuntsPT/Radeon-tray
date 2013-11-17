@@ -87,20 +87,37 @@ def radeon_info_get(client=None):
             radeon_info += "----- Card%d -----\n" % xc
             method, state = power_status_get(xc).split(",")
             radeon_info += "Power method: %s\nPower state: %s\n" % (method, state)
-            radeon_info += temp_checker(temp_location()) + "\n"
+            radeon_info += "---------------\n"
+            radeon_info += "Temperature: " + temp_checker(temp_location()) + "\n"
             try:
                 with open("/sys/kernel/debug/dri/"+str(xc)+"/radeon_pm_info","r") as ff:
-                    line = ff.read().strip()
-                    if line.startswith("power"):
-                        line = line.split()
-                        line[4] = str(int(line[4])/100) + " MHz"
-                        line[6] = str(int(line[6])/100) + " MHz"
-                        line[8] = line[8] + " mV"
-                        line = " ".join(line)
-                    radeon_info += line
+                    for line in ff:
+                        if line.startswith("uvd"):
+                            radeon_info += "---------------\n"
+                            line = line.strip().split()
+                            line[0] = line[0].replace("uvd","UVD:\n")
+                            line[1] = "V clock: "
+                            line[2] = str(int(int(line[2])/100)) + " MHz\n"
+                            line[3] = "D clock: "
+                            line[4] = str(int(int(line[4])/100)) + " MHz\n"
+                            line = " ".join(line)
+
+                        elif line.startswith("power"):
+                            radeon_info += "---------------\n"
+                            line = line.strip().split()
+                            line[0] = line[0].replace("power", "Power")
+                            line[1] = line[1] + ": "
+                            line[2] = line[2] + "\n"
+                            line[3] = "Engine clock: "
+                            line[4] = str(int(int(line[4])/100)) + " MHz\n"
+                            line[5] = "Memory clock: "
+                            line[6] = str(int(int(line[6])/100)) + " MHz\n"
+                            line[7] = "Voltage: "
+                            line[8] = line[8] + " mV"
+                            line = " ".join(line)
+                        radeon_info += line
             except IOError:
                 radeon_info += "\nYou need root privileges\nfor more information"
-            radeon_info += "\n---------------"
         return radeon_info
 
 
