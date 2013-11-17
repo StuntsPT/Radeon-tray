@@ -55,7 +55,7 @@ def verifier(client=None):
 def temp_location():
     """Tests a few paths for card temperature
     """
-    paths_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input"]
+    paths_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input" "/sys/class/drm/card0/device/hwmon/hwmon0/temp1_input"]
     temp_path = ""
     for tpath in paths_list:
         if path.exists(tpath):
