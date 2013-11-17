@@ -110,7 +110,7 @@ def radeon_info_get(client=None):
                             line[2] = line[2] + "\n"
                             line[3] = "Engine clock: "
                             line[4] = str(int(int(line[4])/100)) + " MHz\n"
-                            if line[5] == "mclk":
+                            if line[5] == "mclk:":
                                 line[5] = "Memory clock: "
                                 line[6] = str(int(int(line[6])/100)) + " MHz\n"
                                 line[7] = "Voltage: "
