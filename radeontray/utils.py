@@ -96,9 +96,9 @@ def radeon_info_get(client=None):
                             radeon_info += "---------------\n"
                             line = line.strip().split()
                             line[0] = line[0].replace("uvd","UVD:\n")
-                            line[1] = "V clock: "
+                            line[1] = "VCPU clock: "
                             line[2] = str(int(int(line[2])/100)) + " MHz\n"
-                            line[3] = "D clock: "
+                            line[3] = "Decoder clock: "
                             line[4] = str(int(int(line[4])/100)) + " MHz\n"
                             line = " ".join(line)
 
