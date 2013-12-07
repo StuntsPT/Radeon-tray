@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with Radeon-tray.  If not, see <http://www.gnu.org/licenses/>.
 """
 from __future__ import unicode_literals, print_function
-from os import path, makedirs
+from os import path, makedirs, listdir
 import sys
 
 STATE_PATH = ".config/Radeon-tray/last_power_state"
@@ -55,11 +55,20 @@ def verifier(client=None):
 def temp_location():
     """Tests a few paths for card temperature
     """
-    paths_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input", "/sys/class/drm/card0/device/hwmon/hwmon0/temp1_input"]
     temp_path = ""
-    for tpath in paths_list:
-        if path.exists(tpath):
-            temp_path = tpath
+    hwmon_dir = "/sys/class/hwmon/"
+    hw_mons = listdir(hwmon_dir)
+    for device in hw_mons:
+        if "name" in listdir(hwmon_dir + device):
+            name = open(hwmon_dir + device + "/name").readline().strip()
+            if name == "radeon":
+                temp_path = hwmon_dir + device + "/temp1_input"
+                break
+    #paths_list = ["/sys/class/drm/card0/device/hwmon/hwmon1/temp1_input", "/sys/class/drm/card0/device/hwmon/hwmon0/temp1_input"]
+    #temp_path = ""
+    #for tpath in paths_list:
+        #if path.exists(tpath):
+            #temp_path = tpath
 
     return temp_path
 
