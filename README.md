@@ -67,8 +67,7 @@ You can read more about power profiles [here](http://www.x.org/wiki/RadeonFeat\
 ure#KMS_Power_Management_Options "X.org documentation on Radeon power profiles"\
 ).
 
-This program was inspired by my [Gnome-shell extension](https://github.com/Stun\
-tsPT/shell-extension-radeon-power-profile-manager). But this one will work on
+This program was inspired by my [Gnome-shell extension](https://github.com/StuntsPT/shell-extension-radeon-power-profile-manager). But this one will work on
 non Gnome environments.
 
 The icons were created by Todd-partridge (https://github.com/Gen2ly) and
