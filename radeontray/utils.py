@@ -42,12 +42,12 @@ def verifier(client=None):
         message = client.recv_string()
         return int(message)
     else:
-        cards = 0
+        cards = []
         if path.isdir("/sys/class/drm/card0"):
-            cards += 1
+            cards += [0]
         if path.isdir("/sys/class/drm/card1"):
-            cards += 1
-        if cards == 0:
+            cards += [1]
+        if cards == []:
             sys.exit("No suitable cards found.\nAre you using the OSS Radeon \
     drivers?\nExiting the program.")
         return cards
@@ -92,7 +92,7 @@ def radeon_info_get(client=None):
     else:
         cards = verifier()
         radeon_info = ""
-        for xc in range(cards):
+        for xc in cards:
             radeon_info += "----- Card%d -----\n" % xc
             method, state = power_status_get(xc).split(",")
             radeon_info += "Power method: %s\nPower state: %s\n" % (method, state)
@@ -176,7 +176,7 @@ def power_state_set(new_power_state, cards, home=None, client=None):
     else:
         if home is not None:
             try:
-                for i in range(cards):
+                for i in cards:
                     with open("/sys/class/drm/card"+str(i)+"/device/power_dpm_state","w") as f:
                         f.write(new_power_state)
                 with open(home + STATE_PATH, "w") as fs:
@@ -196,7 +196,7 @@ def power_method_set(new_power_method, cards, home=None, client=None):
     else:
         if home is not None:
             try:
-                for i in range(cards):
+                for i in cards:
                     with open("/sys/class/drm/card" + str(i) + "/device/power_method","w") as f:
                         f.write(new_power_method)
                 with open(home + METHOD_PATH, "w") as fs:
