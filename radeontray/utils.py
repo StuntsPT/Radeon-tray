@@ -25,18 +25,22 @@ import sys
 STATE_PATH = ".config/Radeon-tray/last_power_state"
 METHOD_PATH = ".config/Radeon-tray/last_power_method"
 
+
 def icon_path():
     return path.abspath(path.join(path.dirname(__file__), "assets"))
+
 
 def systemd_path():
     return path.abspath(path.join(path.dirname(__file__), "systemd"))
 
+
 def conf_path():
     return path.abspath(path.join(path.dirname(__file__), "conf"))
 
+
 def verifier(client=None):
-    #First we verify how many cards we are dealing with, if any. Quit if none
-    #are found.
+    # First we verify how many cards we are dealing with, if any. Quit if none
+    # are found.
     if client is not None:
         client.send_string("verifier")
         message = client.recv_string()
@@ -51,6 +55,7 @@ def verifier(client=None):
             sys.exit("No suitable cards found.\nAre you using the OSS Radeon \
     drivers?\nExiting the program.")
         return cards
+
 
 def temp_location():
     """Tests a few paths for card temperature
@@ -72,6 +77,7 @@ def temp_location():
 
     return temp_path
 
+
 def temp_checker(temp_path):
     """Check the card temperature in sysfs, if a suitable entry was found
     """
@@ -81,6 +87,7 @@ def temp_checker(temp_path):
         temperature = f.read()
     temp = str(int(temperature) / 1000) + "°C"
     return temp
+
 
 def radeon_info_get(client=None):
     """Get the power info
@@ -99,12 +106,13 @@ def radeon_info_get(client=None):
             radeon_info += "---------------\n"
             radeon_info += "Temperature: " + temp_checker(temp_location()) + "\n"
             try:
-                with open("/sys/kernel/debug/dri/"+str(xc)+"/radeon_pm_info","r") as ff:
+                with open("/sys/kernel/debug/dri/" + str(xc) +
+                          "/radeon_pm_info", "r") as ff:
                     for line in ff:
                         if line.startswith("uvd"):
                             radeon_info += "---------------\n"
                             line = line.strip().split()
-                            line[0] = line[0].replace("uvd","UVD:\n")
+                            line[0] = line[0].replace("uvd", "UVD:\n")
                             line[1] = "VCPU clock: "
                             line[2] = str(int(int(line[2])/100)) + " MHz\n"
                             line[3] = "Decoder clock: "
@@ -142,16 +150,19 @@ def power_status_get(num=0, client=None):
         message = client.recv_string()
         return message
     else:
-        with open("/sys/class/drm/card"+str(num)+"/device/power_method","r") as f:
+        with open("/sys/class/drm/card" + str(num) +
+                  "/device/power_method", "r") as f:
             power_method = f.readline().strip()
-        with open("/sys/class/drm/card"+str(num)+"/device/power_dpm_state","r") as f:
+        with open("/sys/class/drm/card" + str(num) +
+                  "/device/power_dpm_state", "r") as f:
             power_state = f.readline().strip()
         return power_method + "," + power_state
+
 
 def last_power_status_get(home):
     """Get the last power status
     """
-    #Try if ther's no file configuration
+    # Try if ther's no file configuration
     try:
         with open(home + METHOD_PATH, "r") as f:
             power_method = f.readline().strip()
@@ -166,6 +177,7 @@ def last_power_status_get(home):
         return "dpm,balanced"
     return power_method+","+power_state
 
+
 def power_state_set(new_power_state, cards, home=None, client=None):
     """Change the power state
     """
@@ -177,7 +189,8 @@ def power_state_set(new_power_state, cards, home=None, client=None):
         if home is not None:
             try:
                 for i in cards:
-                    with open("/sys/class/drm/card"+str(i)+"/device/power_dpm_state","w") as f:
+                    with open("/sys/class/drm/card" + str(i) +
+                              "/device/power_dpm_state", "w") as f:
                         f.write(new_power_state)
                 with open(home + STATE_PATH, "w") as fs:
                     fs.write(new_power_state)
@@ -197,7 +210,7 @@ def power_method_set(new_power_method, cards, home=None, client=None):
         if home is not None:
             try:
                 for i in cards:
-                    with open("/sys/class/drm/card" + str(i) + "/device/power_method","w") as f:
+                    with open("/sys/class/drm/card" + str(i) + "/device/power_method", "w") as f:
                         f.write(new_power_method)
                 with open(home + METHOD_PATH, "w") as fs:
                     fs.write(new_power_method)
@@ -205,9 +218,10 @@ def power_method_set(new_power_method, cards, home=None, client=None):
                 return False
         return True
 
+
 def paths_verification(home):
     config_location = path.dirname(home + STATE_PATH)
-    if path.isdir(config_location) == False:
+    if path.isdir(config_location) is False:
         makedirs(config_location)
         with open(home + METHOD_PATH, "w") as f:
             f.write("dpm")
