@@ -1,4 +1,4 @@
-#Radeon-tray
+# Radeon-tray
 
 This is a small program to control the power profiles of your Radeon card via
 systray icon.
@@ -6,6 +6,13 @@ systray icon.
 It is written in PyQt4 using python 3 (also working on python 2).
 
 It supports setups with single and multiple cards.
+
+# Archiving notice
+
+This repository is now archived. Thank you everyone for your support, stars, forks and PRs.
+I don't think this program is useful anymore due to the what FOSS AMD GPU drivers have evolved in the recent past.
+If you feel this is not right, show that you can improve the project on your own fork and I will consider un-archiving and changing repository ownership.
+
 
 ## Importante notice:
 Not all power profiles work on all cards, and in some cases, some modes *might*
@@ -19,14 +26,14 @@ The program now also supports providing information regarding the card temperatu
 card is listed, but feel free to add your own (and if you let me know what that path
 might be I will just add it here).
 
-###Requirements:
+### Requirements:
 * A radeon card (duh!) with KMS
 * ~~Python3~~
 * Python2 or Python3 - both are supported
 * PyQt4
 * zmq
 
-###Usage with installer:
+### Usage with installer:
 The installer and uninstaller scripts need **root privileges**.
 
 The installer uses setup.py, and using it is quite simple:
@@ -62,7 +69,7 @@ Where "X" is the python verion you wish to use (it could be not necessary).
 **Note**: You can also launch the command above after login or simply ``` radeontray client & ```.
 
 
-###Credits:
+### Credits:
 You can read more about power profiles [here](http://www.x.org/wiki/RadeonFeat\
 ure#KMS_Power_Management_Options "X.org documentation on Radeon power profiles"\
 ).
@@ -73,5 +80,5 @@ non Gnome environments.
 The icons were created by Todd-partridge (https://github.com/Gen2ly) and
 somewhat modified by myself.
 
-###License:
+### License:
 This software is licensed under the GPLv3.
